@@ -1,166 +1,670 @@
 # Tổng hợp kiến thức về Git
 
-Bài viết này tổng hợp các kiến thức cơ bản và nâng cao về Git, giúp bạn hiểu rõ cách quản lý mã nguồn và làm việc nhóm hiệu quả.
+Tài liệu này được viết theo hướng vừa dễ học vừa đủ chi tiết để dùng làm tài liệu tham khảo khi làm việc thực tế với Git. Nội dung đi từ khái niệm nền tảng, thao tác hằng ngày, đến quy trình làm việc nhóm bằng Git Flow và một số case studies thường gặp.
 
 ---
 
 ## Bài 1: Git Introduction
 
-### 1. Tổng quan về Git
-- **Git là gì**: Đây là một Hệ thống quản lý phiên bản phân tán (Distributed Version Control System - DVCS).
-- **Mục đích**: Giúp theo dõi lịch sử chỉnh sửa mã nguồn, quản lý các phiên bản của dự án, và cho phép nhiều người cùng làm việc (làm việc nhóm) trên cùng một dự án một cách an toàn mà không bị ghi đè hay mất code.
+### 1. Git là gì?
+Git là một Hệ thống Quản lý Phiên bản Phân tán (Distributed Version Control System - DVCS). Nó được thiết kế để theo dõi sự thay đổi của tệp tin theo thời gian, thường là mã nguồn, đồng thời giúp nhiều người có thể làm việc chung trên cùng một dự án mà vẫn kiểm soát được lịch sử và chất lượng thay đổi.
 
-### 2. Sự khác biệt giữa Git và GitHub
-- **Git**: Là công cụ (phần mềm) lõi được cài đặt trên máy tính cá nhân (Local) của mỗi lập trình viên để quản lý phiên bản cục bộ.
-- **GitHub**: Là một dịch vụ máy chủ trên nền web (Remote) để lưu trữ các kho chứa (repository) Git.
-- **Mối quan hệ**: GitHub đóng vai trò là trung tâm lưu trữ trực tuyến. Các lập trình viên sử dụng Git trên máy cá nhân để kết nối, đẩy code lên (`push`) và tải code về (`pull`) từ GitHub, giúp quá trình làm việc nhóm và đồng bộ hóa diễn ra dễ dàng.
+Điểm quan trọng của Git không chỉ nằm ở việc lưu lại file, mà còn ở chỗ nó lưu lại lịch sử phát triển của dự án dưới dạng các lần chụp trạng thái. Nhờ vậy, bạn có thể quay lại phiên bản cũ, so sánh thay đổi, xem ai sửa gì, và phối hợp công việc nhóm hiệu quả hơn.
 
-### 3. Cài đặt và cấu hình Git
-Sau khi tải và cài đặt Git, bước quan trọng đầu tiên là phải cấu hình thông tin người dùng (User Identity). Điều này giúp Git biết ai là người đã thực hiện các thay đổi (commit).
+### 2. Đặc điểm cốt lõi của Git
+**Phân tán (Distributed)**
 
-Các câu lệnh cấu hình cơ bản thường là:
+Mỗi lập trình viên không chỉ có một bản sao code hiện tại, mà còn có toàn bộ lịch sử commit ngay trên máy của mình. Điều này giúp Git hoạt động nhanh, và ngay cả khi máy chủ remote gặp sự cố, dữ liệu vẫn còn ở các bản sao local khác.
+
+**Snapshot, không phải chỉ là difference**
+
+Git không lưu kiểu “dòng nào thay đổi so với trước” theo nghĩa đơn giản như nhiều người vẫn nghĩ. Mỗi lần commit, Git chụp lại trạng thái của toàn bộ hệ thống tệp tại thời điểm đó. Nếu một file không thay đổi, Git chỉ lưu tham chiếu tới dữ liệu đã có trước đó.
+
+**Tối ưu cho cộng tác**
+
+Git được thiết kế để hỗ trợ làm việc nhóm: tạo nhánh, gộp nhánh, kiểm tra thay đổi, xử lý conflict, và đẩy code lên máy chủ chung một cách an toàn.
+
+### 3. Ba trạng thái chính trong Git
+Trong workflow cơ bản, một thay đổi thường đi qua 3 vùng chính:
+
+1. **Working Directory**: nơi bạn trực tiếp chỉnh sửa file.
+2. **Staging Area**: nơi bạn chuẩn bị những thay đổi muốn đưa vào commit tiếp theo.
+3. **Git Directory / Repository**: nơi lưu lịch sử commit và toàn bộ metadata của repo.
+
+Nói ngắn gọn: sửa file ở Working Directory, chọn file đưa vào Staging Area bằng `git add`, rồi tạo commit để lưu vào Repository.
+
+### 4. Git khác gì GitHub?
+- **Git** là công cụ quản lý phiên bản chạy trên máy của bạn.
+- **GitHub** là nền tảng dịch vụ web để lưu trữ repository Git và hỗ trợ cộng tác.
+- **GitLab / Bitbucket** cũng là những nền tảng tương tự GitHub.
+
+Git là “động cơ”, còn GitHub là “nơi đặt xe và chia sẻ xe”. Bạn dùng Git để thao tác với lịch sử source code, và dùng GitHub để đồng bộ, review, tạo pull request, hoặc quản lý dự án nhóm.
+
+### 5. Cài đặt và cấu hình ban đầu
+Sau khi cài Git, bước đầu tiên nên làm là cấu hình danh tính người dùng để commit có thể ghi nhận đúng tác giả.
+
 ```bash
 git config --global user.name "Tên của bạn"
 git config --global user.email "Email của bạn"
 ```
 
-### 4. Cách xem trợ giúp - Git Help
-Hướng dẫn cách tra cứu tài liệu và cú pháp của các lệnh Git ngay trên terminal.
-- **Cú pháp thường dùng**: `git help <tên_lệnh>` hoặc `git <tên_lệnh> --help`.
+Một số cấu hình hữu ích khác:
+
+```bash
+git config --global init.defaultBranch main
+git config --global core.editor "code --wait"
+```
+
+### 6. Cách xem trợ giúp
+Git có tài liệu trợ giúp ngay trên terminal. Một số cách dùng phổ biến:
+
+```bash
+git help <ten_lenh>
+git <ten_lenh> --help
+git <ten_lenh> -h
+```
+
+Khi chưa nhớ cú pháp chính xác, đây là cách nhanh nhất để tra cứu ngay tại chỗ.
 
 ---
 
 ## Bài 2: Git Basics
 
-### 1. Quy trình làm việc cơ bản (The Basic Workflow)
-Mọi thay đổi trên máy tính của bạn sẽ đi qua 3 giai đoạn (trạng thái) chính:
-1. **Working Directory (Thư mục làm việc)**: Nơi bạn viết code, thêm, sửa hoặc xóa file vật lý.
-2. **Staging Area (Khu vực chuẩn bị)**: Nơi bạn chọn các file (đã chỉnh sửa) để chuẩn bị đóng gói chúng lại.
-   - *Lệnh sử dụng*: `git add <tên_file>` hoặc `git add .` (để thêm tất cả).
-3. **Local Repository (Kho chứa cục bộ)**: Nơi ghi lại lịch sử các gói thay đổi (commit). 
-   - *Lệnh sử dụng*: `git commit`.
+### 1. Quy trình làm việc cơ bản
+Trong một workflow đơn giản, thay đổi đi theo chuỗi sau:
 
-### 2. Quản lý các thay đổi (Commit nâng cao)
-Lệnh `git commit` dùng để lưu lại một "bản chụp" (snapshot) các thay đổi từ Staging Area vào Local Repository.
+**Working Directory -> Staging Area -> Local Repository -> Remote Repository**
 
-- `git commit -m "tin_nhắn"`: Lệnh cơ bản nhất, dùng để commit những file đã được đưa vào Staging Area.
-- `git commit -a -m "tin_nhắn"`:
-  - **Tác dụng**: Tự động add các file bị thay đổi và commit chúng trong một lệnh duy nhất.
-  - **Lưu ý**: Chỉ áp dụng cho các file đã được Git theo dõi (tracked files). Bỏ qua các file hoàn toàn mới (untracked files).
-- `git commit --amend` hoặc `git commit --amend -a`:
-  - **Tác dụng**: Cho phép ghi đè (sửa đổi) commit cuối cùng.
-  - **Trường hợp sử dụng**: Hữu ích khi gõ sai commit message hoặc quên chưa add một file nào đó.
+Diễn giải từng bước:
 
-### 3. Đẩy code lên máy chủ (Push & Upstream)
-Sau khi đã lưu thay đổi ở Local Repository, bạn cần đẩy (`push`) lên GitHub/GitLab.
+- **Working Directory**: bạn sửa file, tạo file mới, xóa file, refactor code.
+- **Staging Area**: bạn chọn chính xác những thay đổi nào sẽ được commit tiếp theo.
+- **Local Repository**: commit được lưu lại thành một snapshot trong lịch sử local.
+- **Remote Repository**: code được đồng bộ lên máy chủ như GitHub hoặc GitLab.
 
-- `git push`: Đẩy các commit mới ở nhánh hiện tại lên máy chủ (remote).
-- `git push --set-upstream origin [tên_nhánh]` (hoặc `git push -u origin [tên_nhánh]`):
-  - **Tác dụng**: Đẩy code lên và đồng thời thiết lập mối liên kết (tracking) giữa nhánh trên máy (local) và nhánh trên máy chủ (remote).
-  - **Trường hợp sử dụng**: Dùng khi vừa tạo một nhánh mới hoàn toàn và muốn đẩy lên Remote lần đầu tiên.
+### 2. Các lệnh cơ bản nhất
+Đây là bộ lệnh bạn sẽ dùng rất thường xuyên:
 
-### 4. Loại bỏ file và Hủy theo dõi (Remove / Untrack)
-- `git rm <file>`: Xóa file khỏi thư mục làm việc (mất file vật lý) và xóa khỏi hệ thống theo dõi của Git.
-- `git rm -r --cached <thư_mục_hoặc_file>`:
-  - **Tác dụng**: Xóa file/thư mục khỏi sự quản lý của Git (untrack), nhưng vẫn giữ lại file vật lý trên máy tính.
-  - **Trường hợp sử dụng**: Khi lỡ commit thư mục nặng (`node_modules`) hoặc file chứa mật khẩu. Thêm tên nó vào `.gitignore` sau khi chạy lệnh. (Thêm `-f` thành `-rf` để ép buộc xóa).
+```bash
+git init
+git clone <url>
+git status
+git add <ten_file>
+git add .
+git commit -m "Thong diep commit"
+git log
+git push
+git pull
+```
 
-### 5. File .gitignore và Các ký tự đặc biệt
-File `.gitignore` chứa danh sách các file/thư mục mà bạn không muốn Git quản lý.
-Các ký tự đặc biệt thường dùng:
-- `*`: Khớp với 0 hoặc nhiều ký tự. Ví dụ: `*.log` (Bỏ qua tất cả file có đuôi .log).
-- `/`: 
-  - Cuối (ví dụ: `build/`): Bỏ qua thư mục build và mọi thứ bên trong.
-  - Đầu (ví dụ: `/todo.txt`): Chỉ bỏ qua file todo.txt ở đúng thư mục gốc.
-- `?`: Khớp với đúng 1 ký tự bất kỳ. Ví dụ: `test?.txt`.
-- `[]`: Khớp với 1 ký tự nằm trong khoảng chỉ định. Ví dụ: `temp[0-9].txt`.
-- `!`: Phủ định lại một quy tắc. 
-  - Ví dụ: 
-    ```gitignore
-    *.log
-    !server.log
-    ```
+Ý nghĩa của từng lệnh:
+
+- `git init`: khởi tạo một repository Git mới trong thư mục hiện tại.
+- `git clone <url>`: sao chép toàn bộ repository từ remote về máy.
+- `git status`: xem trạng thái hiện tại của file, file nào bị sửa, file nào đang staged.
+- `git add`: đưa thay đổi vào staging.
+- `git commit`: lưu lại một phiên bản có ý nghĩa.
+- `git log`: xem lịch sử commit.
+- `git push`: đẩy commit lên remote.
+- `git pull`: tải code từ remote về và gộp vào nhánh hiện tại.
+
+### 3. Commit là gì?
+Commit là một bản chụp trạng thái của dự án tại một thời điểm cụ thể. Mỗi commit thường chứa:
+
+- mã nguồn ở trạng thái được chọn;
+- thông tin tác giả;
+- thời gian tạo;
+- message mô tả thay đổi;
+- tham chiếu tới commit trước đó.
+
+Một commit tốt nên mô tả một thay đổi logic rõ ràng, ví dụ:
+
+```bash
+git commit -m "Add login validation"
+git commit -m "Fix null pointer in cart calculation"
+```
+
+### 4. Các biến thể commit thường gặp
+**Commit bình thường**
+
+```bash
+git commit -m "Message"
+```
+
+**Commit kèm add tự động cho file tracked**
+
+```bash
+git commit -a -m "Message"
+```
+
+Lưu ý: cách này chỉ áp dụng cho file đã được Git theo dõi trước đó, không áp dụng cho file mới hoàn toàn.
+
+**Sửa commit cuối cùng**
+
+```bash
+git commit --amend
+git commit --amend -a
+```
+
+Tác dụng chính là sửa message commit cuối hoặc bổ sung file bị quên. Cần cẩn thận nếu commit đó đã được push lên remote.
+
+### 5. Push và upstream
+Sau khi có commit ở local, bạn đẩy lên remote bằng `git push`.
+
+```bash
+git push
+git push -u origin <ten_nhanh>
+```
+
+Trong đó:
+
+- `git push`: đẩy các commit mới lên branch remote tương ứng.
+- `git push -u origin <ten_nhanh>`: thiết lập tracking giữa branch local và branch remote.
+
+Lệnh `-u` rất hữu ích khi bạn push branch mới lần đầu tiên.
+
+### 6. Xóa file và hủy theo dõi
+**Xóa file khỏi Git và khỏi máy**
+
+```bash
+git rm <file>
+```
+
+**Hủy theo dõi nhưng vẫn giữ file trên máy**
+
+```bash
+git rm -r --cached <thu_muc_hoac_file>
+```
+
+Trường hợp này thường dùng khi lỡ commit nhầm file lớn, file build, hoặc file chứa thông tin nhạy cảm. Sau khi bỏ theo dõi, bạn nên thêm nó vào `.gitignore` để tránh lặp lại.
+
+### 7. `.gitignore` và ký tự đặc biệt
+File `.gitignore` giúp Git bỏ qua những file/thư mục không muốn quản lý.
+
+Một số ký tự thường dùng:
+
+- `*`: khớp với 0 hoặc nhiều ký tự.
+- `?`: khớp với đúng 1 ký tự.
+- `[]`: khớp với một ký tự trong khoảng cho trước.
+- `/`: dùng để chỉ rõ vị trí theo cây thư mục.
+- `!`: phủ định một quy tắc đã bỏ qua trước đó.
+
+Ví dụ:
+
+```gitignore
+*.log
+build/
+/todo.txt
+!server.log
+```
+
+### 8. Các lệnh kiểm tra nhanh rất nên nhớ
+- `git diff`: xem nội dung thay đổi chưa staged.
+- `git diff --staged`: xem nội dung đã staged.
+- `git restore <file>`: hoàn tác thay đổi ở Working Directory.
+- `git restore --staged <file>`: bỏ file ra khỏi staging area.
 
 ---
 
 ## Bài 3: Git Branch
 
-### 1. Bản chất của Branch (Nhánh) là gì?
-- **Khái niệm**: Nhánh trong Git thực chất là một con trỏ (pointer) linh hoạt chỉ đến một commit cụ thể. Nhánh mặc định thường là `main` (hoặc `master`).
-- **Con trỏ HEAD**: Git sử dụng con trỏ đặc biệt tên là `HEAD` để biết bạn đang đứng ở nhánh nào.
-- **Tại sao phải dùng Branch?**: Giống như việc tạo ra các "vũ trụ song song", cho phép bạn làm tính năng mới hoặc sửa lỗi mà không ảnh hưởng code chính.
+### 1. Branch là gì?
+Branch trong Git là một con trỏ tới một commit cụ thể. Nhánh mặc định thường là `main` hoặc `master`, tùy cấu hình của repository.
 
-### 2. Quản lý nhánh (Xem, Tạo, Xóa, Đổi tên)
-- `git branch`: Liệt kê tất cả các nhánh ở Local. Nhánh đang đứng có dấu `*` màu xanh.
-- `git branch -a`: Liệt kê toàn bộ nhánh ở cả Local và Remote.
-- `git branch <tên_nhánh_mới>`: Tạo nhánh mới từ commit hiện tại, nhưng không chuyển sang nhánh đó.
-- `git branch -m <tên_mới>`: Đổi tên nhánh hiện tại đang đứng.
-- `git branch -d <tên_nhánh>`: Xóa một nhánh (nếu code đã được merge).
-- `git branch -D <tên_nhánh>`: Ép buộc xóa nhánh bất chấp việc code đã gộp hay chưa.
+Branch cho phép bạn tách riêng một hướng phát triển mới mà không ảnh hưởng đến nhánh chính. Đây là cơ chế cốt lõi để làm feature, fix bug, hoặc thử nghiệm ý tưởng mới.
 
-### 3. Chuyển đổi và Tạo nhánh nhanh
-Để làm việc trên một nhánh, bạn phải di chuyển `HEAD` sang nhánh đó.
-- `git checkout <tên_nhánh>`: Chuyển sang nhánh đã có.
-- `git checkout -b <tên_nhánh_mới>`: Vừa tạo nhánh mới vừa chuyển sang nhánh đó.
-> **Lưu ý**: Từ Git 2.23, có thể dùng `git switch <tên_nhánh>` và `git switch -c <tên_nhánh_mới>` thay cho `checkout` để ngữ nghĩa rõ ràng hơn.
+### 2. HEAD là gì?
+`HEAD` là con trỏ đặc biệt cho biết bạn đang đứng ở đâu trong lịch sử Git. Thông thường `HEAD` sẽ trỏ vào branch hiện tại, và branch đó lại trỏ vào commit mới nhất của nó.
+
+Nói đơn giản:
+
+- `HEAD` cho biết “bạn đang ở nhánh nào”.
+- Branch cho biết “nhánh đó đang trỏ tới commit nào”.
+
+### 3. Các lệnh quản lý branch
+```bash
+git branch
+git branch -a
+git branch <ten_nhanh_moi>
+git branch -m <ten_moi>
+git branch -d <ten_nhanh>
+git branch -D <ten_nhanh>
+```
+
+Ý nghĩa:
+
+- `git branch`: liệt kê các branch local.
+- `git branch -a`: liệt kê cả local và remote branch.
+- `git branch <ten_nhanh_moi>`: tạo branch mới nhưng chưa chuyển sang.
+- `git branch -m <ten_moi>`: đổi tên branch hiện tại.
+- `git branch -d <ten_nhanh>`: xóa branch nếu đã merge.
+- `git branch -D <ten_nhanh>`: xóa cưỡng bức.
+
+### 4. Chuyển nhánh và tạo nhánh nhanh
+Bạn có thể dùng `checkout` hoặc `switch`.
+
+```bash
+git checkout <ten_nhanh>
+git checkout -b <ten_nhanh_moi>
+
+git switch <ten_nhanh>
+git switch -c <ten_nhanh_moi>
+```
+
+Từ Git 2.23 trở đi, `git switch` được khuyến nghị hơn vì rõ nghĩa hơn: chỉ dùng để chuyển branch hoặc tạo branch mới.
+
+### 5. Khi nào nên tạo branch?
+Thông thường, mỗi nhiệm vụ nên có một branch riêng:
+
+- một tính năng mới;
+- một bug fix;
+- một refactor nhỏ;
+- một thử nghiệm tạm thời.
+
+Điều này giúp lịch sử commit dễ đọc hơn, việc review dễ hơn, và xung đột cũng dễ cô lập hơn.
+
+### 6. Quy ước đặt tên branch
+Nên đặt tên có ngữ nghĩa rõ ràng, ví dụ:
+
+```text
+feature/login
+fix/payment-error
+refactor/user-service
+hotfix/security-patch
+```
+
+Một quy ước đơn giản như `feature/`, `fix/`, `hotfix/`, `refactor/` đã đủ tốt cho đa số team nhỏ và vừa.
 
 ---
 
 ## Bài 4: Git rebase, git merge
 
-### 1. Gộp nhánh (Merging)
-Quy trình gộp chuẩn khi hoàn thành tính năng ở nhánh phụ:
-1. Chuyển về nhánh đích: `git checkout main`
-2. Kéo nhánh phụ vào: `git merge <tên_nhánh_phụ>`
+### 1. Git merge là gì?
+Merge là cách gộp lịch sử của một branch vào branch khác. Đây là cách phổ biến nhất khi kết thúc một nhánh tính năng.
 
-**Các kiểu Merge**:
-- **Fast-forward Merge**: Nếu nhánh main không có thêm commit mới từ lúc rẽ nhánh, Git chỉ trượt con trỏ main tiến lên.
-- **3-way Merge (Merge commit)**: Nếu cả 2 nhánh đều có commit mới, Git tạo ra một "merge commit" để nối 2 nhánh.
+Quy trình thường là:
 
-### 2. Xử lý xung đột (Merge Conflict)
-Xảy ra khi 2 nhánh cùng chỉnh sửa vào cùng một dòng code trong cùng một file.
-- **Dấu hiệu**: Báo `CONFLICT`. File lỗi có các ký tự `<<<<<<< HEAD`, `=======`, `>>>>>>> [tên_nhánh]`.
-- **Cách giải quyết**:
-  1. Mở file bị conflict bằng Editor (VS Code, IntelliJ...).
-  2. Chỉnh sửa logic và xóa các ký tự đánh dấu.
-  3. Chạy `git add <file_đã_sửa>`.
-  4. Chạy `git commit` để hoàn tất.
+```bash
+git switch main
+git merge <ten_nhanh_phu>
+```
 
-### 3. Gộp code bằng Rebase (Nâng cao)
-- `git rebase <nhánh_gốc>`: Bứng rễ nhánh hiện tại và "cấy" nối tiếp vào đỉnh nhánh gốc.
-- **Ưu điểm**: Lịch sử commit thẳng tắp, không sinh ra "merge commit".
-- **Luật bất thành văn (Golden Rule)**: KHÔNG BAO GIỜ dùng rebase trên nhánh public. Chỉ dùng để dọn dẹp lịch sử ở nhánh cá nhân.
+### 2. Các kiểu merge
+**Fast-forward merge**
+
+Nếu branch đích chưa có commit mới nào kể từ lúc branch phụ được tách ra, Git chỉ “trượt” con trỏ branch đích lên commit cuối của branch phụ.
+
+**3-way merge**
+
+Nếu cả hai branch đều có commit mới, Git sẽ tìm commit chung gần nhất và tạo một merge commit để nối hai lịch sử lại với nhau.
+
+### 3. Ưu và nhược điểm của merge
+**Ưu điểm**
+
+- Giữ nguyên lịch sử thật của dự án.
+- Dễ nhìn thấy thời điểm branch được gộp.
+- An toàn vì không viết lại lịch sử.
+
+**Nhược điểm**
+
+- Nếu dự án lớn và merge thường xuyên, lịch sử có thể rối, nhiều merge commit.
+
+### 4. Git rebase là gì?
+Rebase là thao tác “bứng” các commit của branch hiện tại rồi đặt chúng lên trên một base mới.
+
+Ví dụ:
+
+```text
+A---B---C  main
+     \
+      D---E  feature
+```
+
+Sau rebase lên `main` mới:
+
+```text
+A---B---C---F  main
+             \
+              D'---E'  feature
+```
+
+`D'` và `E'` là commit mới được tạo lại, dù nội dung thay đổi có thể giống commit cũ.
+
+### 5. Ưu và nhược điểm của rebase
+**Ưu điểm**
+
+- Lịch sử commit thẳng và sạch.
+- Dễ đọc khi xem `git log`.
+- Tránh tạo merge commit không cần thiết.
+
+**Nhược điểm**
+
+- Rebase viết lại lịch sử.
+- Nếu dùng sai trên branch public, có thể làm đồng đội bị lệch lịch sử.
+
+### 6. Golden rule của rebase
+Không rebase branch đã public nếu branch đó đang được nhiều người dùng chung. Nói cách khác, chỉ rebase trên branch cá nhân hoặc branch chưa chia sẻ rộng rãi.
+
+### 7. Khi nào nên dùng merge, khi nào nên dùng rebase?
+- Dùng **merge** khi muốn giữ nguyên lịch sử thật và an toàn cho branch dùng chung.
+- Dùng **rebase** khi muốn làm sạch lịch sử branch cá nhân trước khi gộp.
 
 ---
 
 ## Bài 5: Git pull, git fetch
 
-### 1. Git Fetch (Tải về an toàn)
-- **Khái niệm**: Kết nối remote, kiểm tra thay đổi mới và tải về.
-- **Đặc điểm cốt lõi**: Rất an toàn. Không đụng chạm Working Directory, không tự động merge. Lưu vào nhánh theo dõi ẩn (vd: `origin/main`).
-- **Mục đích**: Nhìn lén/kiểm tra trước khi quyết định gộp.
-- **Các lệnh**:
-  - `git fetch`: Tải toàn bộ thông tin mới từ remote mặc định.
-  - `git fetch origin <tên_nhánh>`: Tải dữ liệu của một nhánh cụ thể.
-  - `git fetch --all`: Tải từ tất cả máy chủ.
+### 1. Git fetch
+`git fetch` kết nối tới remote repository và tải về các cập nhật mới, nhưng không tự động gộp vào branch hiện tại.
 
-### 2. Git Pull (Tải về và Gộp tự động)
-- **Khái niệm**: Tải code về và lập tức tự động gộp (merge) vào nhánh hiện tại.
-- **Bản chất**: `git pull = git fetch + git merge`
-- **Đặc điểm**: Tiện lợi nhưng có rủi ro gây Conflict nếu cùng sửa một file.
-- **Các lệnh**: `git pull`, `git pull origin <tên_nhánh>`.
+```bash
+git fetch
+git fetch origin <ten_nhanh>
+git fetch --all
+```
 
-### 3. Phân biệt nhanh Git Fetch và Git Pull
+Đặc điểm quan trọng:
+
+- an toàn;
+- không làm thay đổi Working Directory;
+- chỉ cập nhật thông tin remote-tracking branch như `origin/main`.
+
+Nó rất phù hợp khi bạn muốn kiểm tra xem remote có gì mới trước khi quyết định gộp hay không.
+
+### 2. Git pull
+`git pull` là sự kết hợp của `git fetch` và sau đó tự động merge vào branch hiện tại.
+
+```bash
+git pull
+git pull origin <ten_nhanh>
+```
+
+Bản chất:
+
+```text
+git pull = git fetch + git merge
+```
+
+Điểm mạnh của pull là nhanh và tiện. Điểm yếu là nếu local và remote cùng sửa một chỗ, bạn có thể gặp conflict ngay khi kéo code.
+
+### 3. Pull với rebase
+Ngoài merge mặc định, Git còn có chế độ pull với rebase:
+
+```bash
+git pull --rebase
+```
+
+Bản chất:
+
+```text
+git fetch + git rebase
+```
+
+Cách này thường giúp lịch sử thẳng hơn, đặc biệt khi bạn muốn đồng bộ branch cá nhân với branch chính trước khi push.
+
+### 4. Phân biệt nhanh fetch và pull
 
 | Tiêu chí | `git fetch` | `git pull` |
-| :--- | :--- | :--- |
-| **Hành động tải code** | Có | Có |
-| **Hành động gộp (Merge)** | Không | Có (Tự động) |
-| **Ảnh hưởng đến file đang mở**| Không thay đổi gì | Có thể làm đổi code hoặc gây Conflict |
-| **Mức độ an toàn** | Rất an toàn | Cần cẩn thận nếu đang có code chưa commit |
-| **Khi nào nên dùng?** | Kiểm tra code mới trước, review code | Đồng bộ ngay code mới nhất để làm tiếp |
+| --- | --- | --- |
+| Bản chất | Chỉ tải dữ liệu về | Tải dữ liệu về và gộp vào branch hiện tại |
+| Ảnh hưởng tới code | Không đổi code đang làm | Có thể đổi code hoặc phát sinh conflict |
+| Độ an toàn | Rất an toàn | Cần cẩn thận hơn |
+| Mục đích chính | Kiểm tra trước khi gộp | Đồng bộ nhanh để làm tiếp |
 
-### 4. Nâng cao: Git Pull với Rebase
-- `git pull --rebase`
-- **Bản chất**: `fetch + rebase` (thay vì fetch + merge).
-- **Tác dụng**: Lấy commit mới trên máy chủ làm nền, nhấc các commit chưa push của bạn cấy lên trên, giúp lịch sử thẳng tắp dễ đọc.
+### 5. Nên dùng lệnh nào?
+- Dùng `fetch` khi muốn kiểm tra trạng thái remote trước.
+- Dùng `pull` khi bạn chấp nhận gộp ngay vào branch hiện tại.
+- Dùng `pull --rebase` khi team ưu tiên lịch sử commit gọn hơn.
+
+---
+
+## Bài 6: Git Flow
+
+### 1. Git Flow là gì?
+Git Flow là một quy trình làm việc có cấu trúc, dùng để quản lý việc phát triển tính năng, sửa lỗi, phát hành và hotfix trong dự án.
+
+Trong tài liệu này, Git Flow được trình bày theo mô hình thực tế đơn giản hơn, phù hợp với dự án nhỏ và vừa:
+
+```text
+fork -> clone -> add remote upstream -> tạo branch riêng -> commit -> rebase -> push -> pull request -> review -> merge
+```
+
+### 2. Vì sao cần Git Flow?
+Nếu nhiều người cùng sửa trực tiếp trên `main`, dự án rất dễ xảy ra các vấn đề sau:
+
+- code bị ghi đè;
+- lịch sử commit rối;
+- khó review;
+- conflict xuất hiện liên tục;
+- khó phát hành bản ổn định.
+
+Git Flow giúp tách riêng vai trò của từng branch, làm rõ luồng làm việc và giảm rủi ro khi nhiều người cộng tác.
+
+### 3. Các nhánh thường gặp trong Git Flow
+- **`main`**: branch ổn định, chứa code đã sẵn sàng release.
+- **`develop`**: branch tích hợp các thay đổi đang phát triển, nếu team dùng mô hình này.
+- **`feature/*`**: branch cho từng tính năng.
+- **`fix/*`** hoặc **`bugfix/*`**: branch cho sửa lỗi.
+- **`hotfix/*`**: branch sửa lỗi khẩn cấp trên production.
+
+Không phải dự án nào cũng cần đủ các nhánh này. Với team nhỏ, chỉ cần `main` và các branch ngắn hạn theo nhiệm vụ là đủ.
+
+### 4. Một Git Flow đơn giản theo thực tế làm việc nhóm
+**Bước 1: Fork repository**
+
+Nếu bạn làm trên dự án open source hoặc repo không cho push trực tiếp, thường bạn fork repository gốc về tài khoản cá nhân.
+
+**Bước 2: Clone repository đã fork**
+
+```bash
+git clone <url_fork>
+cd <ten_project>
+```
+
+**Bước 3: Add remote upstream**
+
+```bash
+git remote add upstream <url_repo_goc>
+git remote -v
+```
+
+Ý nghĩa:
+
+- `origin`: repository của bạn.
+- `upstream`: repository gốc của dự án.
+
+**Bước 4: Tạo branch làm việc**
+
+```bash
+git switch main
+git pull upstream main
+git switch -c feature/login
+```
+
+**Bước 5: Làm việc và commit**
+
+```bash
+git status
+git add .
+git commit -m "Add login validation"
+```
+
+**Bước 6: Đồng bộ với upstream bằng rebase**
+
+```bash
+git fetch upstream
+git rebase upstream/main
+```
+
+**Bước 7: Xử lý conflict nếu có**
+
+```bash
+git add .
+git rebase --continue
+```
+
+**Bước 8: Push branch và tạo pull request**
+
+```bash
+git push -u origin feature/login
+```
+
+Sau đó tạo Pull Request từ branch của bạn vào branch mục tiêu của repo gốc.
+
+### 5. Cách đọc flow này bằng trực giác
+Flow trên có thể hiểu như sau:
+
+1. Lấy code mới nhất từ repo gốc.
+2. Tạo branch riêng để làm việc.
+3. Commit theo từng logic nhỏ.
+4. Rebase để cập nhật code mới nhất trước khi gửi review.
+5. Push branch lên fork của mình.
+6. Tạo Pull Request để team review và merge.
+
+### 6. Best practices trong Git Flow
+- Không code trực tiếp trên branch chính.
+- Commit nên nhỏ và có ý nghĩa.
+- Trước khi push PR, đồng bộ với branch mục tiêu.
+- Ưu tiên `--force-with-lease` nếu bắt buộc phải push sau rebase.
+- Không dùng `--force` bừa bãi trên branch dùng chung.
+
+### 7. Sơ đồ tóm tắt
+```mermaid
+flowchart LR
+  A[main / upstream] --> B[fork / origin]
+  B --> C[feature branch]
+  C --> D[commit]
+  D --> E[rebase with upstream]
+  E --> F[push to origin]
+  F --> G[pull request]
+  G --> H[review]
+  H --> I[merge to main]
+```
+
+---
+
+## Bài 7: Case Studies
+
+### 1. Case 1: Lỡ sửa nhầm file và muốn quay lại
+Tình huống: bạn sửa một file nhưng chưa muốn giữ thay đổi.
+
+Nếu file chưa staged:
+
+```bash
+git restore <file>
+```
+
+Nếu file đã staged:
+
+```bash
+git restore --staged <file>
+git restore <file>
+```
+
+Ý nghĩa: bỏ thay đổi khỏi staging, rồi hoàn tác file về trạng thái trước đó.
+
+### 2. Case 2: Lỡ commit sai message
+Tình huống: commit xong nhưng message chưa đúng hoặc quên thêm một file nhỏ.
+
+```bash
+git commit --amend
+```
+
+Nếu commit đó chưa push lên remote thì đây là cách chỉnh rất tiện. Nếu đã push rồi, cần cẩn thận vì có thể phải force push.
+
+### 3. Case 3: Lỡ commit nhầm file nhạy cảm
+Tình huống: đẩy nhầm `.env`, file chứa token, hoặc thư mục nặng như `node_modules`.
+
+Hướng xử lý thường là:
+
+```bash
+git rm -r --cached <file_hoac_thu_muc>
+echo <ten_file> >> .gitignore
+git add .gitignore
+git commit -m "Remove sensitive file from tracking"
+```
+
+Nếu dữ liệu nhạy cảm đã được push công khai, chỉ xóa file thôi là chưa đủ. Khi đó cần xử lý lịch sử git cẩn thận hơn.
+
+### 4. Case 4: Gặp conflict khi pull
+Tình huống: bạn đang có thay đổi local, và khi pull thì Git báo conflict.
+
+Quy trình xử lý thường là:
+
+```bash
+git status
+git pull
+```
+
+Nếu có conflict, mở file bị đánh dấu, chọn nội dung đúng, rồi:
+
+```bash
+git add <file>
+git commit
+```
+
+Nếu đang pull bằng rebase, lệnh kết thúc sẽ là:
+
+```bash
+git add <file>
+git rebase --continue
+```
+
+### 5. Case 5: Muốn xem remote có gì mới mà chưa muốn merge
+Tình huống: team vừa push code mới, nhưng bạn chưa muốn gộp vội.
+
+```bash
+git fetch origin
+git log --oneline --graph --decorate --all
+git diff main origin/main
+```
+
+Đây là cách rất tốt để review trước khi quyết định pull hoặc merge.
+
+### 6. Case 6: Làm feature branch lâu ngày
+Tình huống: branch feature của bạn tồn tại vài ngày hoặc vài tuần, trong lúc đó branch chính đã thay đổi.
+
+Giải pháp thường dùng:
+
+```bash
+git fetch upstream
+git rebase upstream/main
+```
+
+Nếu conflict nhiều, hãy xử lý từng file, test lại sau mỗi bước, và chỉ push khi branch đã ổn.
+
+### 7. Case 7: Cần quay lại một commit cũ để kiểm tra
+Tình huống: bạn muốn xem dự án ở một commit trước đây.
+
+```bash
+git log --oneline
+git checkout <commit_hash>
+```
+
+Hoặc an toàn hơn, tạo branch tạm để thử:
+
+```bash
+git switch -c temp-check <commit_hash>
+```
+
+### 8. Case 8: Muốn xem thay đổi trước khi commit
+Tình huống: bạn chưa chắc mình đã sửa đúng.
+
+```bash
+git status
+git diff
+git diff --staged
+```
+
+Đây là bộ lệnh nên chạy trước khi commit để tránh đẩy nhầm thay đổi không mong muốn.
+
+### 9. Checklist nhanh trước khi push
+- Đã chạy `git status`.
+- Đã xem `git diff` và `git diff --staged`.
+- Commit message rõ ràng.
+- Không còn file nhạy cảm hoặc file build thừa.
+- Branch đã được đồng bộ nếu cần.
+
+---
+
+## Kết luận ngắn
+Nếu học Git theo đúng thứ tự từ khái niệm, thao tác cơ bản, branch, merge/rebase, fetch/pull, rồi đến Git Flow và case studies, ta sẽ hiểu được cả phần “dùng lệnh” lẫn phần “vì sao phải dùng như vậy”. Khi thực hành, điều quan trọng nhất là làm quen với `status`, `diff`, `add`, `commit`, `branch`, `fetch`, `merge`, `rebase` và đọc được lịch sử Git bằng `log`.
