@@ -544,125 +544,184 @@ flowchart LR
 
 ## Bài 7: Case Studies
 
-### 1. Case 1: Lỡ sửa nhầm file và muốn quay lại
-Tình huống: bạn sửa một file nhưng chưa muốn giữ thay đổi.
+### 1. Gộp nhiều commit thành một (Combine commits into one)
+Khi bạn tạo quá nhiều commit nhỏ lẻ như sửa typo, chỉnh CSS, hoặc fix format, bạn có thể gộp chúng lại thành một commit duy nhất trước khi push.
 
-Nếu file chưa staged:
-
-```bash
-git restore <file>
-```
-
-Nếu file đã staged:
+**Cách 1: Dùng soft reset**
 
 ```bash
-git restore --staged <file>
-git restore <file>
+git reset --soft HEAD~3
+git commit -m "Tin nhắn commit gộp mới"
 ```
 
-Ý nghĩa: bỏ thay đổi khỏi staging, rồi hoàn tác file về trạng thái trước đó.
+`HEAD~3` nghĩa là lùi về trước 3 commit gần nhất, nhưng vẫn giữ nguyên các thay đổi trong staging area để bạn commit lại thành một commit mới.
 
-### 2. Case 2: Lỡ commit sai message
-Tình huống: commit xong nhưng message chưa đúng hoặc quên thêm một file nhỏ.
+**Cách 2: Dùng interactive rebase**
 
 ```bash
-git commit --amend
+git rebase -i HEAD~3
 ```
 
-Nếu commit đó chưa push lên remote thì đây là cách chỉnh rất tiện. Nếu đã push rồi, cần cẩn thận vì có thể phải force push.
+Khi editor mở ra, đổi `pick` thành `squash` hoặc `s` ở những commit muốn gộp. Sau đó lưu lại, đóng file, và Git sẽ cho bạn nhập lại message commit mới.
 
-### 3. Case 3: Lỡ commit nhầm file nhạy cảm
-Tình huống: đẩy nhầm `.env`, file chứa token, hoặc thư mục nặng như `node_modules`.
+### 2. Bỏ qua file đã lỡ commit (Ignore committed file)
+Nếu bạn lỡ commit một file như `.env` hoặc thư mục `node_modules`, chỉ thêm nó vào `.gitignore` thôi là chưa đủ vì Git đã track nó rồi.
 
-Hướng xử lý thường là:
+**Cách giải quyết:**
+
+1. Xóa file đó khỏi bộ nhớ theo dõi của Git, nhưng vẫn giữ lại file vật lý trên máy:
 
 ```bash
-git rm -r --cached <file_hoac_thu_muc>
-echo <ten_file> >> .gitignore
-git add .gitignore
-git commit -m "Remove sensitive file from tracking"
+git rm --cached <ten_file_hoac_thu_muc> -r
 ```
 
-Nếu dữ liệu nhạy cảm đã được push công khai, chỉ xóa file thôi là chưa đủ. Khi đó cần xử lý lịch sử git cẩn thận hơn.
-
-### 4. Case 4: Gặp conflict khi pull
-Tình huống: bạn đang có thay đổi local, và khi pull thì Git báo conflict.
-
-Quy trình xử lý thường là:
+2. Thêm tên file hoặc thư mục đó vào `.gitignore`.
+3. Commit lại thay đổi:
 
 ```bash
-git status
-git pull
+git commit -m "Untrack va ignore file nhay cam"
 ```
 
-Nếu có conflict, mở file bị đánh dấu, chọn nội dung đúng, rồi:
+### 3. Đổi tên nhánh (Rename branch)
+Bạn lỡ đặt tên nhánh sai chính tả hoặc sai quy ước của dự án.
+
+**Nếu đang đứng ở nhánh cần đổi tên:**
 
 ```bash
-git add <file>
-git commit
+git branch -m <ten_nhanh_moi>
 ```
 
-Nếu đang pull bằng rebase, lệnh kết thúc sẽ là:
+**Nếu nhánh cũ đã được push lên remote:**
+
+1. Đổi tên nhánh ở local.
+2. Push nhánh mới lên remote:
 
 ```bash
-git add <file>
-git rebase --continue
+git push origin -u <ten_nhanh_moi>
 ```
 
-### 5. Case 5: Muốn xem remote có gì mới mà chưa muốn merge
-Tình huống: team vừa push code mới, nhưng bạn chưa muốn gộp vội.
+3. Xóa nhánh cũ trên remote:
 
 ```bash
-git fetch origin
-git log --oneline --graph --decorate --all
-git diff main origin/main
+git push origin --delete <ten_nhanh_cu>
 ```
 
-Đây là cách rất tốt để review trước khi quyết định pull hoặc merge.
+### 4. Commit nhầm nhánh (Commit to other branch by mistake)
+Bạn đang code và lỡ commit thẳng vào nhánh `main` thay vì branch `feature`.
 
-### 6. Case 6: Làm feature branch lâu ngày
-Tình huống: branch feature của bạn tồn tại vài ngày hoặc vài tuần, trong lúc đó branch chính đã thay đổi.
+**Cách giải quyết bằng cherry-pick:**
 
-Giải pháp thường dùng:
+1. Lấy mã hash của commit vừa tạo bằng `git log`.
+2. Chuyển sang nhánh đúng, hoặc tạo nhánh mới:
 
 ```bash
-git fetch upstream
-git rebase upstream/main
+git checkout -b <nhanh_dung>
 ```
 
-Nếu conflict nhiều, hãy xử lý từng file, test lại sau mỗi bước, và chỉ push khi branch đã ổn.
-
-### 7. Case 7: Cần quay lại một commit cũ để kiểm tra
-Tình huống: bạn muốn xem dự án ở một commit trước đây.
+3. Bê commit đó sang nhánh mới:
 
 ```bash
-git log --oneline
-git checkout <commit_hash>
+git cherry-pick <ma_hash>
 ```
 
-Hoặc an toàn hơn, tạo branch tạm để thử:
+4. Quay lại nhánh sai nếu cần, rồi xóa commit nhầm bằng reset:
 
 ```bash
-git switch -c temp-check <commit_hash>
+git checkout main
+git reset --hard HEAD~1
 ```
 
-### 8. Case 8: Muốn xem thay đổi trước khi commit
-Tình huống: bạn chưa chắc mình đã sửa đúng.
+### 5. Lỡ commit sai và muốn xóa bỏ (Commit by mistake and remove it)
+Bạn tạo một commit chứa code lỗi hoặc phá hỏng tính năng, và muốn xử lý theo cách phù hợp với trạng thái local hay remote.
+
+**Trường hợp 1: Chưa push lên remote**
 
 ```bash
-git status
-git diff
-git diff --staged
+git reset --hard HEAD~1
 ```
 
-Đây là bộ lệnh nên chạy trước khi commit để tránh đẩy nhầm thay đổi không mong muốn.
+Lệnh này xóa hoàn toàn commit cuối cùng và đưa code về trạng thái trước đó.
 
-### 9. Checklist nhanh trước khi push
-- Đã chạy `git status`.
-- Đã xem `git diff` và `git diff --staged`.
-- Commit message rõ ràng.
-- Không còn file nhạy cảm hoặc file build thừa.
-- Branch đã được đồng bộ nếu cần.
+**Trường hợp 2: Đã push lên remote**
+
+Không nên dùng `reset --hard` vì sẽ làm lệch lịch sử trên remote. Khi đó nên dùng:
+
+```bash
+git revert <ma_hash_commit_sai>
+```
+
+`revert` tạo một commit mới để đảo ngược thay đổi của commit sai, thay vì xóa hẳn nó khỏi lịch sử.
+
+### 6. Gộp commit từ nhánh khác sang (Combine commits from other branch)
+Bạn đang ở nhánh `feature-A`, nhưng đồng nghiệp ở nhánh `feature-B` vừa có một commit rất hữu ích. Bạn không muốn merge cả nhánh, chỉ muốn lấy đúng commit đó.
+
+**Cách giải quyết bằng cherry-pick:**
+
+1. Đứng ở nhánh của bạn.
+2. Lấy commit đích danh:
+
+```bash
+git cherry-pick <ma_hash_cua_commit_ben_nhanh_kia>
+```
+
+`cherry-pick` rất hữu ích khi bạn chỉ cần một thay đổi cụ thể, không cần kéo toàn bộ lịch sử của branch khác.
+
+### 7. Đang code dở nhưng phải chuyển nhánh (In the middle of work but navigate to other branch)
+Bạn đang viết dở code, chưa xong và chưa thể commit, nhưng cần chuyển sang branch khác để xử lý việc gấp.
+
+**Cách giải quyết bằng stash:**
+
+1. Cất code đang làm dở vào stash:
+
+```bash
+git stash
+```
+
+2. Chuyển sang nhánh khác để làm việc.
+3. Khi quay lại, lấy code ra:
+
+```bash
+git stash pop
+```
+
+Nếu muốn giữ stash lại sau khi áp dụng, có thể dùng `git stash apply` thay vì `pop`.
+
+### 8. Lỡ tay xóa mất một commit quan trọng (Remove important commit by mistake)
+Bạn lỡ dùng `git reset --hard` hoặc xóa nhầm branch chứa commit quan trọng.
+
+Git thường chưa xóa ngay dữ liệu đó, vì vậy có thể cứu lại bằng `reflog`.
+
+1. Xem lịch sử di chuyển của HEAD:
+
+```bash
+git reflog
+```
+
+2. Tìm trạng thái trước khi lỡ tay xóa, copy mã hash cần khôi phục.
+3. Khôi phục lại:
+
+```bash
+git reset --hard <ma_hash_can_khoi_phuc>
+```
+
+### 9. Đã merge nhưng đổi ý muốn hoàn tác (Merged but want to undo)
+Bạn vừa merge một branch vào `main`, nhưng sau đó phát hiện branch đó có lỗi và muốn hoàn tác.
+
+**Trường hợp 1: Mới merge ở local, chưa push**
+
+```bash
+git reset --hard <ma_hash_truoc_khi_merge>
+```
+
+**Trường hợp 2: Đã push lên remote**
+
+Không nên reset lại lịch sử đã public. Thay vào đó, dùng commit đảo ngược merge:
+
+```bash
+git revert -m 1 <ma_hash_commit_merge>
+```
+
+`-m 1` cho Git biết giữ nhánh chính làm parent gốc khi revert merge commit.
 
 ---
 
