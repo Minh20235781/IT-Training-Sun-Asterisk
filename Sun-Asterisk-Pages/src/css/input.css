@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import custom css thuần (animation, hiệu ứng riêng) */
+@import "./custom.css";
+
+/* ===== BASE OVERRIDES ===== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-dark antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-bold;
+  }
+}
+
+/* ===== REUSABLE COMPONENTS ===== */
+@layer components {
+  /* Nút chính màu đỏ (VD: "Tìm hiểu thêm" nền trắng chữ đỏ) */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-white text-primary font-semibold
+           px-6 py-3 rounded-md hover:bg-gray-100 transition duration-200;
+  }
+
+  /* Nút tối (VD: "Xem tất cả dự án", "Xem chi tiết") */
+  .btn-dark {
+    @apply inline-flex items-center gap-2 bg-dark text-white font-semibold
+           px-6 py-3 rounded-md hover:bg-gray-700 transition duration-200;
+  }
+
+  /* Nút viền đỏ (VD: "Gia nhập đội ngũ Sun*") */
+  .btn-outline {
+    @apply inline-flex items-center gap-2 bg-white text-primary font-semibold
+           px-6 py-3 rounded-md border border-primary hover:bg-primary hover:text-white
+           transition duration-200;
+  }
+
+  /* Nav link header */
+  .nav-link {
+    @apply text-gray-700 font-medium hover:text-primary transition duration-150;
+  }
+
+  .nav-link-active {
+    @apply text-primary font-semibold;
+  }
+
+  /* Card dịch vụ (Creative & Engineering / Talent Platform) */
+  .service-card {
+    @apply relative rounded-2xl p-8 md:p-10 overflow-hidden;
+  }
+
+  .service-card-red {
+    @apply service-card bg-primary text-white;
+  }
+
+  .service-card-light {
+    @apply service-card bg-gray-50 text-dark border border-gray-100;
+  }
+
+  .service-tag {
+    @apply inline-block bg-white/20 text-sm rounded-full px-4 py-1 mb-6;
+  }
+
+  /* Card tin tức / văn hoá sự kiện */
+  .news-card {
+    @apply bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition
+           duration-300;
+  }
+
+  .news-badge {
+    @apply absolute top-3 right-3 bg-primary text-white text-xs font-semibold
+           px-3 py-1 rounded-full;
+  }
+
+  /* Số liệu thống kê (200++ Đối tác, 300++ Dịch vụ) */
+  .stat-number {
+    @apply text-6xl md:text-7xl font-extrabold text-primary leading-none;
+  }
+
+  .stat-label {
+    @apply text-gray-500 mt-2;
+  }
+
+  /* Nút mũi tên tròn slider (< >) */
+  .slider-arrow {
+    @apply w-10 h-10 flex items-center justify-center rounded-full border
+           border-gray-300 text-gray-500 hover:bg-primary hover:text-white
+           hover:border-primary transition duration-200 cursor-pointer;
+  }
+
+  /* Nút Join us góc dưới phải */
+  .join-us-btn {
+    @apply fixed bottom-6 right-6 bg-primary text-white text-sm font-semibold
+           w-16 h-16 rounded-full flex items-center justify-center shadow-lg
+           hover:bg-primary-dark transition duration-200 z-50;
+  }
+
+  /* Section container chuẩn */
+  .section-container {
+    @apply max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-24;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-dark mb-10;
+  }
+}

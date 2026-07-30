@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output (output.css tự sinh, không nên commit)
+src/css/output.css
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env
+.env
+.env.local
