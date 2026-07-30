@@ -1,42 +1,44 @@
-<header class="bg-white sticky top-0 z-40 border-b border-gray-100">
+<header class="bg-white fixed top-0 left-0 w-full z-50 border-b border-gray-100 shadow-sm">
   <div class="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between h-20">
     <!-- Logo -->
-    <a href="#hero" class="text-3xl font-extrabold text-primary">Sun*</a>
+    <a href="#hero" class="text-3xl font-extrabold text-primary flex-shrink-0">
+      <img src="./src/assets/images/common/logo-sun.png" alt="Sun*" class="h-6 w-auto">
+    </a>
 
     <!-- Nav desktop -->
     <nav class="hidden lg:flex items-center gap-8">
-      <a href="#hero" class="nav-link nav-link-active">Trang chủ</a>
-      <a href="#about" class="nav-link">Về chúng tôi</a>
-      <a href="#project" class="nav-link">Dự án</a>
-      <a href="#career" class="nav-link">Cơ hội nghề nghiệp</a>
-      <a href="#service" class="nav-link">Môi trường làm việc</a>
-      <a href="#news" class="nav-link">Tin tức</a>
+      <a href="#hero" class="nav-link nav-link-active text-red-600 font-medium">Trang chủ</a>
+      <a href="#about" class="nav-link hover:text-red-600 transition-colors">Về chúng tôi</a>
+      <a href="#project" class="nav-link hover:text-red-600 transition-colors">Dự án</a>
+      <a href="#career" class="nav-link hover:text-red-600 transition-colors">Cơ hội nghề nghiệp</a>
+      <a href="#service" class="nav-link hover:text-red-600 transition-colors">Môi trường làm việc</a>
+      <a href="#news" class="nav-link hover:text-red-600 transition-colors">Tin tức</a>
     </nav>
 
     <!-- Ngôn ngữ + menu mobile -->
     <div class="flex items-center gap-4">
       <div class="hidden sm:flex items-center gap-2 text-sm">
-        <button data-lang="vi" class="nav-link-active border border-primary rounded px-2 py-1 text-primary font-semibold">VI</button>
-        <button data-lang="en" class="nav-link text-gray-400">EN</button>
+        <button data-lang="vi" class="nav-link-active border border-red-600 rounded px-2 py-1 text-red-600 font-semibold">VI</button>
+        <button data-lang="en" class="nav-link text-gray-400 hover:text-gray-600 transition-colors">EN</button>
       </div>
 
       <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 w-8 h-8 justify-center items-center">
-        <span class="block w-6 h-0.5 bg-dark"></span>
-        <span class="block w-6 h-0.5 bg-dark"></span>
-        <span class="block w-6 h-0.5 bg-dark"></span>
+        <span class="block w-6 h-0.5 bg-black"></span>
+        <span class="block w-6 h-0.5 bg-black"></span>
+        <span class="block w-6 h-0.5 bg-black"></span>
       </button>
     </div>
   </div>
 
-  <!-- Menu mobile -->
-  <div id="mobile-menu" class="lg:hidden bg-white border-t border-gray-100">
+  <!-- Menu mobile (Thêm hidden để mặc định ẩn) -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 w-full absolute left-0 top-20 shadow-md">
     <nav class="flex flex-col px-6 py-4 gap-4">
-      <a href="#hero" class="nav-link nav-link-active">Trang chủ</a>
-      <a href="#about" class="nav-link">Về chúng tôi</a>
-      <a href="#project" class="nav-link">Dự án</a>
-      <a href="#career" class="nav-link">Cơ hội nghề nghiệp</a>
-      <a href="#service" class="nav-link">Môi trường làm việc</a>
-      <a href="#news" class="nav-link">Tin tức</a>
+      <a href="#hero" class="nav-link nav-link-active text-red-600 font-medium">Trang chủ</a>
+      <a href="#about" class="nav-link hover:text-red-600">Về chúng tôi</a>
+      <a href="#project" class="nav-link hover:text-red-600">Dự án</a>
+      <a href="#career" class="nav-link hover:text-red-600">Cơ hội nghề nghiệp</a>
+      <a href="#service" class="nav-link hover:text-red-600">Môi trường làm việc</a>
+      <a href="#news" class="nav-link hover:text-red-600">Tin tức</a>
     </nav>
   </div>
 </header>
