@@ -1,75 +1,113 @@
-<section id="project" class="section-container">
-  <h2 class="section-title fade-in-up">Dự án của chúng tôi</h2>
+<section id="project" class="max-w-6xl mx-auto px-4 py-20"> <!-- Đổi max-w-7xl thành max-w-6xl để tổng thể gom lại gần nhau hơn -->
+  
+  <div class="relative mb-16 fade-in-up">
+    <div class="absolute -left-2 -top-2 w-8 h-8 rounded-full bg-red-100 opacity-60"></div>
+    <h2 class="text-4xl font-bold text-gray-800 relative z-10">Dự án của chúng tôi</h2>
+  </div>
 
-  <div class="grid md:grid-cols-2 gap-10 items-center">
-    <!-- Số liệu -->
-    <div class="space-y-10 fade-in-up">
-      <div>
-        <span class="stat-number" data-counter="200">0</span><span class="text-primary text-3xl font-bold">++</span>
-        <p class="stat-label">Đối tác</p>
+  <!-- Đã sửa: Giảm gap từ gap-20 xuống gap-12 -->
+  <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-end">
+    
+    <!-- CỘT TRÁI: Thống kê số liệu -->
+    <div class="space-y-16 pb-6 fade-in-up">
+      <div class="flex items-start gap-4">
+        <span class="text-7xl md:text-8xl font-bold text-red-700 leading-none" data-counter="550">550</span>
+        <div class="flex flex-col mt-2">
+          <span class="text-3xl font-bold text-red-700 leading-none mb-2">++</span>
+          <span class="text-lg text-gray-500">Đối tác</span>
+        </div>
       </div>
-      <div>
-        <span class="stat-number" data-counter="300">0</span><span class="text-primary text-3xl font-bold">++</span>
-        <p class="stat-label">Dịch vụ được hỗ trợ</p>
+      
+      <div class="flex items-start gap-4">
+        <span class="text-7xl md:text-8xl font-bold text-red-700 leading-none" data-counter="1000">1000</span>
+        <div class="flex flex-col mt-2">
+          <span class="text-3xl font-bold text-red-700 leading-none mb-2">++</span>
+          <span class="text-lg text-gray-500 leading-snug">Dịch vụ được hỗ<br>trợ</span>
+        </div>
       </div>
-      <a href="#" class="btn-dark">Xem tất cả dự án →</a>
+
+      <div class="pt-4">
+        <a href="#" class="inline-flex items-center gap-3 px-8 py-4 bg-gray-800 text-white font-medium rounded hover:bg-black transition-colors">
+          Xem tất cả dự án 
+          <span class="bg-gray-600 rounded-full w-6 h-6 flex items-center justify-center text-xs">→</span>
+        </a>
+      </div>
     </div>
 
-    <!-- Slider -->
-    <div id="project-slider" class="relative fade-in-up">
-      <div class="rounded-[2rem] border border-gray-100 bg-gradient-to-br from-white via-white to-red-50/60 p-4 md:p-6 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-        <div class="overflow-hidden rounded-[1.5rem]">
-          <div class="slider-track items-stretch">
-            <div class="slider-item w-full md:w-1/3 flex-none px-3 h-full">
-              <div class="news-card h-full">
-              <img src="./src/assets/images/projects/harutaka.png" alt="Dự án HARUTAKA" class="w-full h-48 object-cover" />
-              <div class="p-6">
-                <p class="text-sm text-gray-400 mb-2">Công ty TNHH ZENKIGEN</p>
-                <h4 class="text-xl font-bold mb-3">Dự án HARUTAKA</h4>
-                <p class="text-gray-600 text-sm mb-4">
-                  "HARUTAKA" cho phép các công ty và người tìm việc có thể phỏng vấn
-                  trên web hoặc trong video bất kể thời gian hay địa điểm nào.
+    <!-- CỘT PHẢI: Slider -->
+    <!-- Đã sửa: Bỏ ml-auto, thêm md:ml-12 để card dịch sang phải một khoảng vừa đẹp -->
+    <div id="project-slider" class="relative fade-in-up w-full max-w-[420px] md:ml-12" data-items="1">
+      
+      <div class="overflow-hidden rounded bg-gray-50 h-[450px]">
+        <div class="slider-track flex h-full transition-transform duration-500 ease-in-out">
+          
+          <!-- THẺ 1: HARUTAKA -->
+          <div class="slider-item w-full h-full flex-none relative">
+            <img src="./src/assets/images/projects/harutaka.png" alt="HARUTAKA" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-multiply pointer-events-none" />
+            <div class="absolute inset-0 p-8 z-10 flex flex-col justify-end">
+              <div class="mt-auto">
+                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">Công ty TNHH ZENKIGEN</p>
+                <h4 class="text-2xl font-bold text-gray-800 mb-4">Dự án HARUTAKA</h4>
+                <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                  “HARUTAKA” cho phép các công ty và người tìm việc có thể phỏng vấn trên web hoặc trong video bất kể thời gian hay địa điểm nào.
                 </p>
-                <a href="#" class="text-primary font-semibold text-sm">Xem chi tiết →</a>
+                <a href="#" class="inline-flex items-center gap-2 text-red-700 font-bold text-sm hover:opacity-80">
+                  Xem chi tiết 
+                  <span class="bg-red-100 rounded-full w-6 h-6 flex items-center justify-center font-normal">→</span>
+                </a>
               </div>
             </div>
           </div>
 
-            <div class="slider-item w-full md:w-1/3 flex-none px-3 h-full">
-              <div class="news-card h-full">
-              <img src="./src/assets/images/projects/kurashicom.png" alt="Dự án Kurashicom" class="w-full h-48 object-cover" />
-              <div class="p-6">
-                <p class="text-sm text-gray-400 mb-2">Kurashicom Inc.</p>
-                <h4 class="text-xl font-bold mb-3">Dự án Kurashicom</h4>
-                <p class="text-gray-600 text-sm mb-4">
-                  Nền tảng nội dung lifestyle kết nối thương hiệu với người dùng Nhật Bản.
+          <!-- THẺ 2: SSK -->
+          <div class="slider-item w-full h-full flex-none relative">
+            <img src="./src/assets/images/projects/ssk.png" alt="SSK" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-multiply pointer-events-none" />
+            <div class="absolute inset-0 p-8 z-10 flex flex-col justify-end">
+              <div class="mt-auto">
+                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">SSK Corporation</p>
+                <h4 class="text-2xl font-bold text-gray-800 mb-4">Dự án SSK</h4>
+                <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                  Hệ thống quản lý vận hành nội bộ giúp tối ưu quy trình doanh nghiệp một cách toàn diện.
                 </p>
-                <a href="#" class="text-primary font-semibold text-sm">Xem chi tiết →</a>
+                <a href="#" class="inline-flex items-center gap-2 text-red-700 font-bold text-sm hover:opacity-80">
+                  Xem chi tiết 
+                  <span class="bg-red-100 rounded-full w-6 h-6 flex items-center justify-center font-normal">→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- THẺ 3: Kurashicom -->
+          <div class="slider-item w-full h-full flex-none relative">
+            <img src="./src/assets/images/projects/kurashicom.png" alt="Kurashicom" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-multiply pointer-events-none" />
+            <div class="absolute inset-0 p-8 z-10 flex flex-col justify-end">
+              <div class="mt-auto">
+                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">Kurashicom Inc.</p>
+                <h4 class="text-2xl font-bold text-gray-800 mb-4">Dự án Kurashicom</h4>
+                <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                  Nền tảng nội dung lifestyle kết nối thương hiệu với người dùng Nhật Bản, mang lại trải nghiệm tối ưu.
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 text-red-700 font-bold text-sm hover:opacity-80">
+                  Xem chi tiết 
+                  <span class="bg-red-100 rounded-full w-6 h-6 flex items-center justify-center font-normal">→</span>
+                </a>
               </div>
             </div>
           </div>
 
-            <div class="slider-item w-full md:w-1/3 flex-none px-3 h-full">
-              <div class="news-card h-full">
-              <img src="./src/assets/images/projects/ssk.png" alt="Dự án SSK" class="w-full h-48 object-cover" />
-              <div class="p-6">
-                <p class="text-sm text-gray-400 mb-2">SSK Corporation</p>
-                <h4 class="text-xl font-bold mb-3">Dự án SSK</h4>
-                <p class="text-gray-600 text-sm mb-4">
-                  Hệ thống quản lý vận hành nội bộ giúp tối ưu quy trình doanh nghiệp.
-                </p>
-                <a href="#" class="text-primary font-semibold text-sm">Xem chi tiết →</a>
-              </div>
-            </div>
-          </div>
-          </div>
-        </div>
-
-        <div class="mt-6 flex justify-end gap-3">
-          <button class="slider-arrow prev">&lt;</button>
-          <button class="slider-arrow next">&gt;</button>
         </div>
       </div>
+
+      <!-- Cụm nút bấm mũi tên chuyển slide -->
+      <div class="flex justify-end gap-3 mt-6">
+        <button class="slider-arrow prev w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        </button>
+        <button class="slider-arrow next w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+        </button>
+      </div>
+
     </div>
   </div>
 </section>
