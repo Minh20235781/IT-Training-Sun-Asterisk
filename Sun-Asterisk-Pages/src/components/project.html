@@ -2,7 +2,7 @@
   
   <div class="relative mb-16 fade-in-up">
     <div class="absolute -left-2 -top-2 w-8 h-8 rounded-full bg-red-100 opacity-60"></div>
-    <h2 class="text-4xl font-bold text-gray-800 relative z-10">Dự án của chúng tôi</h2>
+    <h2 class="text-4xl font-bold text-gray-800 relative z-10" data-i18n="proj.title">Dự án của chúng tôi</h2>
   </div>
 
   <!-- Đã sửa: Giảm gap từ gap-20 xuống gap-12 -->
@@ -14,7 +14,7 @@
         <span class="text-7xl md:text-8xl font-bold text-red-700 leading-none" data-counter="550">550</span>
         <div class="flex flex-col mt-2">
           <span class="text-3xl font-bold text-red-700 leading-none mb-2">++</span>
-          <span class="text-lg text-gray-500">Đối tác</span>
+          <span class="text-lg text-gray-500" data-i18n="proj.partner">Đối tác</span>
         </div>
       </div>
       
@@ -22,13 +22,13 @@
         <span class="text-7xl md:text-8xl font-bold text-red-700 leading-none" data-counter="1000">1000</span>
         <div class="flex flex-col mt-2">
           <span class="text-3xl font-bold text-red-700 leading-none mb-2">++</span>
-          <span class="text-lg text-gray-500 leading-snug">Dịch vụ được hỗ<br>trợ</span>
+          <span class="text-lg text-gray-500 leading-snug" data-i18n="proj.service">Dịch vụ được hỗ<br>trợ</span>
         </div>
       </div>
 
       <div class="pt-4">
         <a href="#" class="inline-flex items-center gap-3 px-8 py-4 bg-gray-800 text-white font-medium rounded hover:bg-black transition-colors">
-          Xem tất cả dự án 
+          <span data-i18n="proj.viewAll">Xem tất cả dự án</span>
           <span class="bg-gray-600 rounded-full w-6 h-6 flex items-center justify-center text-xs">→</span>
         </a>
       </div>
@@ -46,13 +46,13 @@
             <img src="./src/assets/images/projects/harutaka.png" alt="HARUTAKA" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-multiply pointer-events-none" />
             <div class="absolute inset-0 p-8 z-10 flex flex-col justify-end">
               <div class="mt-auto">
-                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">Công ty TNHH ZENKIGEN</p>
-                <h4 class="text-2xl font-bold text-gray-800 mb-4">Dự án HARUTAKA</h4>
-                <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider" data-i18n="proj.card1.company">Công ty TNHH ZENKIGEN</p>
+                <h4 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="proj.card1.title">Dự án HARUTAKA</h4>
+                <p class="text-gray-600 text-sm mb-6 leading-relaxed" data-i18n="proj.card1.desc">
                   “HARUTAKA” cho phép các công ty và người tìm việc có thể phỏng vấn trên web hoặc trong video bất kể thời gian hay địa điểm nào.
                 </p>
                 <a href="#" class="inline-flex items-center gap-2 text-red-700 font-bold text-sm hover:opacity-80">
-                  Xem chi tiết 
+                  <span data-i18n="proj.detail">Xem chi tiết</span>
                   <span class="bg-red-100 rounded-full w-6 h-6 flex items-center justify-center font-normal">→</span>
                 </a>
               </div>
@@ -64,13 +64,13 @@
             <img src="./src/assets/images/projects/ssk.png" alt="SSK" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-multiply pointer-events-none" />
             <div class="absolute inset-0 p-8 z-10 flex flex-col justify-end">
               <div class="mt-auto">
-                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">SSK Corporation</p>
-                <h4 class="text-2xl font-bold text-gray-800 mb-4">Dự án SSK</h4>
-                <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider" data-i18n="proj.card2.company">SSK Corporation</p>
+                <h4 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="proj.card2.title">Dự án SSK</h4>
+                <p class="text-gray-600 text-sm mb-6 leading-relaxed" data-i18n="proj.card2.desc">
                   Hệ thống quản lý vận hành nội bộ giúp tối ưu quy trình doanh nghiệp một cách toàn diện.
                 </p>
                 <a href="#" class="inline-flex items-center gap-2 text-red-700 font-bold text-sm hover:opacity-80">
-                  Xem chi tiết 
+                  <span data-i18n="proj.detail">Xem chi tiết</span>
                   <span class="bg-red-100 rounded-full w-6 h-6 flex items-center justify-center font-normal">→</span>
                 </a>
               </div>
@@ -82,13 +82,13 @@
             <img src="./src/assets/images/projects/kurashicom.png" alt="Kurashicom" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-multiply pointer-events-none" />
             <div class="absolute inset-0 p-8 z-10 flex flex-col justify-end">
               <div class="mt-auto">
-                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">Kurashicom Inc.</p>
-                <h4 class="text-2xl font-bold text-gray-800 mb-4">Dự án Kurashicom</h4>
-                <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider" data-i18n="proj.card3.company">Kurashicom Inc.</p>
+                <h4 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="proj.card3.title">Dự án Kurashicom</h4>
+                <p class="text-gray-600 text-sm mb-6 leading-relaxed" data-i18n="proj.card3.desc">
                   Nền tảng nội dung lifestyle kết nối thương hiệu với người dùng Nhật Bản, mang lại trải nghiệm tối ưu.
                 </p>
                 <a href="#" class="inline-flex items-center gap-2 text-red-700 font-bold text-sm hover:opacity-80">
-                  Xem chi tiết 
+                  <span data-i18n="proj.detail">Xem chi tiết</span>
                   <span class="bg-red-100 rounded-full w-6 h-6 flex items-center justify-center font-normal">→</span>
                 </a>
               </div>

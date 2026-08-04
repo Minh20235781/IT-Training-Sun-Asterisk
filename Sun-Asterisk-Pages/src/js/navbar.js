@@ -1,40 +1,45 @@
-document.addEventListener("headerLoaded", () => {
-  const header = document.querySelector("header");
-  if (!header) return;
+function initNavbar() {
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.querySelector('#menu-icon path');
 
-  // Đổi bóng header khi cuộn xuống
-  const handleScroll = () => {
-    if (window.scrollY > 20) {
-      header.classList.add("scrolled");
+  if (!menuToggle || !mobileMenu || !menuIcon) return;
+
+  // Xóa event cũ nếu load lại component
+  const newToggle = menuToggle.cloneNode(true);
+  menuToggle.parentNode.replaceChild(newToggle, menuToggle);
+
+  let isMenuOpen = false;
+
+  newToggle.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+    const currentIcon = document.querySelector('#menu-icon path');
+
+    if (isMenuOpen) {
+      // Mở menu
+      mobileMenu.classList.remove('hidden');
+      // Đổi thành icon dấu X
+      if (currentIcon) currentIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
     } else {
-      header.classList.remove("scrolled");
+      // Đóng menu
+      mobileMenu.classList.add('hidden');
+      // Đổi về icon 3 gạch
+      if (currentIcon) currentIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
     }
-  };
+  });
 
-  window.addEventListener("scroll", handleScroll);
-  handleScroll(); // gọi 1 lần lúc load để đúng trạng thái ban đầu
-
-  // Gán active cho link tương ứng theo section đang cuộn tới
-  const navLinks = header.querySelectorAll(".nav-link");
-
-  const setActiveOnScroll = () => {
-    const sections = document.querySelectorAll("main section[id]");
-    let currentId = "";
-
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop - 120;
-      if (window.scrollY >= sectionTop) {
-        currentId = section.id;
-      }
+  // Tùy chọn: Tự động đóng menu mobile khi bấm vào một link
+  const mobileLinks = mobileMenu.querySelectorAll('a');
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      isMenuOpen = false;
+      mobileMenu.classList.add('hidden');
+      const currentIcon = document.querySelector('#menu-icon path');
+      if (currentIcon) currentIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
     });
+  });
+}
 
-    navLinks.forEach((link) => {
-      link.classList.remove("nav-link-active");
-      if (link.getAttribute("href") === `#${currentId}`) {
-        link.classList.add("nav-link-active");
-      }
-    });
-  };
-
-  window.addEventListener("scroll", setActiveOnScroll);
+document.addEventListener("componentsLoaded", () => {
+  initNavbar();
 });
