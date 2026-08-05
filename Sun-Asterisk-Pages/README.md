@@ -48,5 +48,4 @@ Lệnh `dev` sẽ chạy song song:
 
 - Trang chủ được ghép từ nhiều file component, nên khi chỉnh nội dung cần kiểm tra đồng bộ giữa HTML, CSS và JS.
 - Nếu thay đổi class Tailwind trong các component, hãy chạy lại `npm run watch:css` hoặc `npm run build:css`.
-
-## Link deploy: https://it-training-sun-asterisk.vercel.app/
+- Hoặc có thể truy cập vào link deploy: https://it-training-sun-asterisk.vercel.app/
