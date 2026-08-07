@@ -1,0 +1,20 @@
+{
+  "name": "module-5-typescript-demo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "description": "Bộ code được tổ chức theo 8 phần kiến thức trong mục lục của slide: 1. Tổng quan về TypeScript 2. Trình biên dịch và cấu hình 3. Type System 4. Function 5. Class và Interface 6. Các kiểu nâng cao và Generics 7. Decorator 8. Modules và Namespace",
+  "main": "01-Tong-quan-TypeScript.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
