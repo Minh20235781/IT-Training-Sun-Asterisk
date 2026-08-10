@@ -1,0 +1,403 @@
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #21243d;
+  background: #fff;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Hind', sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* ===== Layout ===== */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-layout__content {
+  flex: 1;
+}
+
+/* ===== Header ===== */
+.site-header {
+  background: #21243d;
+  padding: 14px 0;
+}
+
+.site-header__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-header__logo {
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.site-header__logo-icon {
+  color: #f5a623;
+}
+
+.site-header__nav a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* ===== Hero Banner ===== */
+.hero-banner {
+  position: relative;
+  height: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background-image: url('./assets/hero.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 0 24px;
+}
+
+.hero-banner__logo {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.hero-banner__logo-icon {
+  font-weight: 400;
+  font-size: 26px;
+}
+
+.hero-banner__title {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 300;
+  text-align: center;
+  margin: 0;
+}
+
+.hero-banner .search-bar {
+  width: 100%;
+  max-width: 1040px;
+}
+
+/* Responsive: ảnh mobile riêng, chiều cao thấp hơn */
+@media (max-width: 640px) {
+  .hero-banner {
+    height: 400px;
+    background-image: url('./assets/hero-mobile.png');
+    gap: 20px;
+  }
+
+  .hero-banner__title {
+    font-size: 28px;
+  }
+
+  .hero-banner__logo {
+    font-size: 22px;
+  }
+}
+
+/* ===== Search Bar ===== */
+.search-bar {
+  background: #fff;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  padding: 20px 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.search-bar__icon {
+  color: #f5a623;
+  font-size: 20px;
+  margin-right: 14px;
+}
+
+.search-bar__input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 17px;
+  color: #21243d;
+  background: transparent;
+}
+
+.search-bar__input::placeholder {
+  color: #9ca3af;
+}
+
+/* ===== Home Page Body (sidebar + content) ===== */
+.home-page__body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .home-page__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-section {
+  min-width: 0;
+}
+
+/* ===== Filter Menu Updates ===== */
+/* Giới hạn chiều cao và thêm thanh cuộn (scroll) để menu không bị kéo quá dài */
+.filter-menu__section-content {
+  max-height: 260px; /* Chiều cao tối đa, vượt quá sẽ có thanh cuộn */
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Tùy chỉnh thanh cuộn cho đẹp mắt */
+.filter-menu__section-content::-webkit-scrollbar {
+  width: 4px;
+}
+.filter-menu__section-content::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* Kiểu dáng cho danh sách Category giống mẫu */
+.filter-menu__category-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+  cursor: pointer;
+  color: #21243d;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.filter-menu__category-item:hover {
+  color: #f5a623;
+}
+
+/* Mũi tên nhỏ trước category */
+.filter-menu__category-item::before {
+  content: '▸';
+  margin-right: 8px;
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+/* Nhãn hiển thị số lượng (ví dụ: 2448) */
+.filter-menu__category-count {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+/* Rating rows */
+.filter-menu__rating-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.filter-menu__rating-row:hover {
+  background: #f9fafb;
+}
+
+.filter-menu__rating-row.active {
+  background: #fef3c7;
+}
+
+.star {
+  color: #d1d5db;
+  font-size: 14px;
+}
+
+.star--filled {
+  color: #f5a623;
+}
+
+/* Toggle switch */
+.filter-menu__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #e5e7eb;
+  border-radius: 20px;
+  transition: 0.2s;
+}
+
+.toggle__slider::before {
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.toggle input:checked + .toggle__slider {
+  background-color: #f5a623;
+}
+
+.toggle input:checked + .toggle__slider::before {
+  transform: translateX(16px);
+}
+
+/* ===== Toolbar (sort + hits per page) — nếu bạn thêm sau ===== */
+.product-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ===== Product Grid & Card ===== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 20px;
+}
+
+@media (max-width: 1200px) {
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .product-grid { grid-template-columns: 1fr; }
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.product-card__image-wrapper {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 48px;
+  padding-bottom: 48px;
+  list-style: none;
+}
+
+.pagination__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px; /* Tạo hình vuông bo góc nhẹ */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination__button:hover:not(:disabled) {
+  background-color: #e5e7eb;
+}
+
+.pagination__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Trạng thái trang hiện tại (Active) */
+.pagination__button--active {
+  background-color: #f5a623;
+  color: #ffffff;
+}
+
+.pagination__button--active:hover {
+  background-color: #f5a623;
+}

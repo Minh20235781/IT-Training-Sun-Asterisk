@@ -36,19 +36,19 @@ console.log(student.getAge()); // Output: 21
 // console.log(student.age); // Error: Property 'age' is private and only accessible within class 'Student'
 
 // 2. protected
-class Person {
-  constructor(protected name: string) {}
-}
+// class Person {
+//   constructor(protected name: string) {}
+// }
 
-class Developer extends Person {
-  introduce() {
-    // protected có thể truy cập trong class con
-    return `Developer: ${this.name}`;
-  }
-}
+// class Developer extends Person {
+//   introduce() {
+//     // protected có thể truy cập trong class con
+//     return `Developer: ${this.name}`;
+//   }
+// }
 
-const developer = new Developer("Minh");
-console.log(developer.introduce()); // Output: Developer: Minh
+// const developer = new Developer("Minh");
+// console.log(developer.introduce()); // Output: Developer: Minh
 
 // Không truy cập protected từ bên ngoài:
 // console.log(developer.name); // Error: Property 'name' is protected and only accessible within class 'Person' and its subclasses
@@ -74,15 +74,15 @@ class Animal {
   }
 }
 
-class Dog extends Animal {
-  bark(): void {
-    console.log("Woof!"); 
-  }
-}
+// class Dog extends Animal {
+//   bark(): void {
+//     console.log("Woof!"); 
+//   }
+// }
 
-const dog = new Dog();
-dog.move(); // Output: Moving...
-dog.bark(); // Output: Woof!
+// const dog = new Dog();
+// dog.move(); // Output: Moving...
+// dog.bark(); // Output: Woof!
 
 // 5. Abstract class
 abstract class Shape {
@@ -111,7 +111,7 @@ console.log(rectangle.area()); // Output: 50
 console.log(rectangle.describe()); // Output: This is a shape
 
 // Không thể new abstract class:
-// const shape = new Shape();
+//const shape = new Shape();
 
 // 6. Static
 class MathUtil {
@@ -126,18 +126,18 @@ console.log(MathUtil.PI); // Output: 3.14159
 console.log(MathUtil.square(5)); // Output: 25
 
 // 7. Interface
-interface User {
-  id: number;
-  name: string;
-  email?: string;
-}
+// interface User {
+//   id: number;
+//   name: string;
+//   email?: string;
+// }
 
-const user: User = {
-  id: 1,
-  name: "Minh",
-};
+// const user: User = {
+//   id: 1,
+//   name: "Minh",
+// };
 
-console.log(user); // Output: { id: 1, name: 'Minh' }
+// console.log(user); // Output: { id: 1, name: 'Minh' }
 
 // 8. Implements
 interface Printable {

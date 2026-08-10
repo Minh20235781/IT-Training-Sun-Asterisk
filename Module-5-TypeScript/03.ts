@@ -26,10 +26,10 @@ let year = 2026;     // TypeScript suy luận: number
 // year = true; // Error: Type 'boolean' is not assignable to type 'number'.
 
 // 3. Object và Array
-const student: { name: string; age: number } = {
-  name: "Minh",
-  age: 21,
-};
+// const student: { name: string; age: number } = {
+//   name: "Minh",
+//   age: 21,
+// };
 
 const scores: number[] = [8, 9, 9.5];
 
@@ -75,18 +75,18 @@ type Direction = "left" | "right" | "up" | "down";
 let direction: Direction = "left";
 
 // Lỗi compile nếu gán giá trị không hợp lệ như center:
-// direction = "center";
+//direction = "center";
 
 // 10. Type Alias
-type User = {
-  id: number;
-  name: string;
-};
+// type User = {
+//   id: number;
+//   name: string;
+// };
 
-const user: User = {
-  id: 1,
-  name: "Minh",
-};
+// const user: User = {
+//   id: 1,
+//   name: "Minh",
+// };
 
 // 11. null / undefined
 let emptyValue: null = null;
