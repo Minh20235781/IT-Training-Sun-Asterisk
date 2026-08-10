@@ -47,7 +47,10 @@ Frontend mặc định dùng Vite (port 5173). Nếu port bận, Vite sẽ đề
 
 API backend (json-server) mặc định lắng nghe trên `http://localhost:3001` và cung cấp endpoint
 `/products` (từ `data/db.json`). Vite cấu hình proxy `/api` → `http://localhost:3001` để tránh CORS khi dev.
-Hoặc có thể dùng bản deploy: https://algolia-ecommerce-final.vercel.app/
+
+**Demo (Live)**
+
+- Live demo được deploy trên Vercel: [https://algolia-ecommerce-final.vercel.app/](https://algolia-ecommerce-final.vercel.app/)
 
 ## Scripts hữu ích
 
