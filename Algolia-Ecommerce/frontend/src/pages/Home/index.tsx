@@ -6,7 +6,6 @@ import { Pagination } from '@/components/common/Pagination';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useProducts } from '@/hooks/useProducts';
 import { SEARCH_DEBOUNCE_MS, DEFAULT_PAGE_SIZE } from '@/utils/constants';
-import icons from '@/assets/icons.svg'; 
 
 export default function Home() {
   const [searchInput, setSearchInput] = useState('');
@@ -15,7 +14,6 @@ export default function Home() {
   const {
     products,
     facets,
-    total,
     totalPages,
     loading,
     error,
