@@ -178,6 +178,7 @@ input {
   grid-template-columns: 260px 1fr;
   gap: 48px;
   align-items: start;
+  position: relative;
 }
 
 @media (max-width: 900px) {
@@ -203,7 +204,7 @@ input {
   height: 48px; /* 1. Ép cứng chiều cao bằng với toolbar bên phải */
   padding-bottom: 16px;
   margin-bottom: 32px;
-  border-bottom: 1px solid #e5e7eb; /* 2. Chuyển đường kẻ trực tiếp lên header */
+  /* border moved to parent to render a single continuous line */
 }
 
 .filter-menu__header h3 {
@@ -464,7 +465,18 @@ input {
   height: 48px; /* 3. Bằng chính xác chiều cao filter-header */
   padding-bottom: 16px;
   margin-bottom: 32px;
-  border-bottom: 1px solid #e5e7eb;
+  /* border moved to parent to render a single continuous line */
+}
+
+/* Single continuous divider spanning both columns */
+.home-page__body::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 96px; /* padding-top (48px) + header height (48px) */
+  height: 1px;
+  background-color: #e5e7eb;
 }
 
 .product-toolbar__select {
