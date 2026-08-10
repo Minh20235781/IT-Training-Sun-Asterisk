@@ -1,12 +1,12 @@
 {
-  "name": "algolia-ecommerce-data",
+  "name": "algolia-json-server",
   "version": "1.0.0",
-  "private": true,
+  "description": "Backend for Algolia Ecommerce",
+  "main": "server.js",
   "scripts": {
-    "start": "json-server --watch db.json --port 3001 --delay 300",
-    "start:no-delay": "json-server --watch db.json --port 3001"
+    "start": "node server.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "json-server": "^0.17.4"
   }
 }

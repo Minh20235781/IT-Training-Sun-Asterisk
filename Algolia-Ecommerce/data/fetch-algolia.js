@@ -3,8 +3,8 @@ const fs = require('fs');
 const APP_ID = 'latency';
 const API_KEY = '6be0576ff61c053d5f9a3225e2a90f76';
 const INDEX_NAME = 'instant_search';
-const HITS_PER_PAGE = 1000; // Algolia giới hạn tối đa 1000/page
-const MAX_PAGES = 5; // lấy ~ vài nghìn sản phẩm, chỉnh tuỳ nhu cầu
+const HITS_PER_PAGE = 1000;
+const MAX_PAGES = 5;
 
 async function fetchPage(page) {
   const url = `https://${APP_ID}-dsn.algolia.net/1/indexes/*/queries?x-algolia-agent=Algolia%20for%20JavaScript&x-algolia-api-key=${API_KEY}&x-algolia-application-id=${APP_ID}`;
@@ -31,7 +31,7 @@ async function fetchPage(page) {
   }
 
   const data = await res.json();
-  return data.results[0]; // { hits, nbHits, nbPages, page, ... }
+  return data.results[0]; 
 }
 
 async function main() {
@@ -45,7 +45,7 @@ async function main() {
     console.log(`Page ${page + 1}/${nbPages} — lấy ${result.hits.length} sản phẩm`);
     allHits = allHits.concat(result.hits);
 
-    if (page >= nbPages - 1) break; // hết trang thì dừng sớm
+    if (page >= nbPages - 1) break; 
   }
 
   fs.writeFileSync('./algolia-raw.json', JSON.stringify(allHits, null, 2));
