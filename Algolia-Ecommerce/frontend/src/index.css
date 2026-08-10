@@ -199,13 +199,18 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  box-sizing: border-box;
+  height: 48px; /* 1. Ép cứng chiều cao bằng với toolbar bên phải */
+  padding-bottom: 16px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e5e7eb; /* 2. Chuyển đường kẻ trực tiếp lên header */
 }
 
 .filter-menu__header h3 {
   font-size: 22px;
   font-weight: 700;
   color: #21243d;
+  margin: 0; /* Bắt buộc reset margin để không đẩy lệch đường kẻ */
 }
 
 .filter-menu__clear {
@@ -227,8 +232,8 @@ input {
 }
 
 .filter-menu__section:first-of-type {
-  border-top: none;
-  padding-top: 0;
+  border-top: none !important;
+  padding-top: 0 !important;
 }
 
 .filter-menu__section h4 {
@@ -455,33 +460,37 @@ input {
   justify-content: flex-end;
   align-items: center;
   gap: 32px;
-  margin-bottom: 32px;
+  box-sizing: border-box;
+  height: 48px; /* 3. Bằng chính xác chiều cao filter-header */
   padding-bottom: 16px;
-  border-bottom: 1px solid #e5e7eb; /* Đường kẻ ngang mờ phân cách giống ảnh mẫu */
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .product-toolbar__select {
-  appearance: none; /* Xóa mũi tên dropdown mặc định cực kỳ xấu của trình duyệt */
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   background-color: transparent;
   border: none;
   color: #4b5563;
-  font-size: 14px;
+  font-size: 15px; /* Tăng size chữ lên một chút */
+  font-weight: 500; /* Nét chữ đậm đà hơn cho giống ảnh mẫu */
   font-family: inherit;
   cursor: pointer;
   outline: none;
-  padding-right: 18px; /* Chừa khoảng trống bên phải để chèn mũi tên mới */
+  padding: 6px 24px 6px 8px; /* Tăng vùng bấm (padding) để người dùng dễ click hơn */
   
-  /* Chèn mũi tên SVG nét mảnh màu xám vào làm background */
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  /* Thay mũi tên SVG mới to, mảnh và cân đối hơn */
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right center;
-  transition: color 0.2s;
+  transition: color 0.2s ease;
 }
 
-.product-toolbar__select:hover {
-  color: #21243d; /* Hover đổi màu chữ đậm hơn */
+.product-toolbar__select:hover,
+.product-toolbar__select:focus {
+  color: #111827; /* Đổi sang màu xám đen đậm khi hover/click */
 }
 
 /* Fix lỗi mũi tên mặc định trên IE/Edge cũ */
