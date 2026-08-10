@@ -18,7 +18,7 @@ export function Pagination({
   return (
     <nav className="pagination" aria-label="Pagination">
       <button
-        className="pagination__arrow"
+        className="pagination__button pagination__button--nav"
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
         aria-label="Previous page"
@@ -28,14 +28,18 @@ export function Pagination({
 
       {pages.map((page, idx) =>
         page === 'ellipsis' ? (
-          <span key={`ellipsis-${idx}`} className="pagination__ellipsis">
+          <span 
+            key={`ellipsis-${idx}`} 
+            className="pagination__button pagination__button--nav"
+            style={{ cursor: 'default', pointerEvents: 'none' }}
+          >
             …
           </span>
         ) : (
           <button
             key={page}
-            className={`pagination__page ${
-              page === currentPage ? 'pagination__page--active' : ''
+            className={`pagination__button ${
+              page === currentPage ? 'pagination__button--active' : ''
             }`}
             onClick={() => onPageChange(page)}
             aria-current={page === currentPage ? 'page' : undefined}
@@ -46,7 +50,7 @@ export function Pagination({
       )}
 
       <button
-        className="pagination__arrow"
+        className="pagination__button pagination__button--nav"
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
         aria-label="Next page"

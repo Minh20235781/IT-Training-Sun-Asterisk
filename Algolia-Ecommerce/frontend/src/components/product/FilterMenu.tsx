@@ -2,7 +2,18 @@ import { useState, useMemo } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { ProductQueryParams } from '@/types/product';
 import { ProductFacets } from '@/types/common';
-import { formatCurrency } from '@/utils/formatters';
+
+// Danh sách cố định theo ảnh mẫu
+const MAIN_CATEGORIES = [
+  'Appliances', 'Audio', 'Cameras & Camcorders', 'Car Electronics & GPS',
+  'Cell Phones', 'Computers & Tablets', 'Health, Fitness & Beauty',
+  'Office & School Supplies', 'TV & Home Theater', 'Video Games'
+];
+
+const MAIN_BRANDS = [
+  'Apple', 'Insignia™', 'Metra', 'HP', 'Samsung',
+  'Sony', 'Incipio', 'Canon', 'Speck', 'OtterBox'
+];
 
 interface FilterMenuProps {
   facets: ProductFacets;
@@ -22,7 +33,11 @@ export function FilterMenu({
       <div className="filter-menu__header">
         <h3>Filters</h3>
         <button onClick={onClearAll} className="filter-menu__clear">
-          ↻ Clear filters
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '4px' }}>
+            <path d="M21 2v6h-6"></path>
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          </svg>
+          Clear filters
         </button>
       </div>
 
@@ -46,25 +61,29 @@ export function FilterMenu({
         onChange={(minPrice, maxPrice) => onChange({ minPrice, maxPrice })}
       />
 
+      <div className="filter-menu__section">
+        <h4>Free Shipping</h4>
+        <div className="filter-menu__free-shipping">
+          <span className="free-shipping-text">Display only items with free shipping</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {params.freeShipping && <span style={{ color: '#f5a623', fontSize: '14px', fontWeight: 600 }}>Yes</span>}
+            <label className="toggle">
+              <input
+                type="checkbox"
+                checked={params.freeShipping ?? false}
+                onChange={(e) => onChange({ freeShipping: e.target.checked })}
+              />
+              <span className="toggle__slider" />
+            </label>
+          </div>
+        </div>
+      </div>
+
       <RatingFilter
         options={facets.ratings}
         selected={params.rating}
         onChange={(rating) => onChange({ rating })}
       />
-
-      <div className="filter-menu__section">
-        <div className="filter-menu__row">
-          <span>Free Shipping</span>
-          <label className="toggle">
-            <input
-              type="checkbox"
-              checked={params.freeShipping ?? false}
-              onChange={(e) => onChange({ freeShipping: e.target.checked })}
-            />
-            <span className="toggle__slider" />
-          </label>
-        </div>
-      </div>
     </aside>
   );
 }
@@ -87,20 +106,25 @@ function CategoryFilter({
     onChange(next);
   };
 
+  // Chỉ lấy các category có trong MAIN_CATEGORIES
+  const filteredCategories = options.filter(o => MAIN_CATEGORIES.includes(o.value));
+
   return (
     <div className="filter-menu__section">
       <h4>Category</h4>
-      {options.map(({ value, count }) => (
-        <label key={value} className="filter-menu__checkbox-row">
-          <input
-            type="checkbox"
-            checked={selected.includes(value)}
-            onChange={() => toggle(value)}
-          />
-          <span>{value}</span>
-          <span className="filter-menu__count">{count}</span>
-        </label>
-      ))}
+      <div className="filter-menu__section-content">
+        {filteredCategories.map(({ value, count }) => (
+          <div 
+            key={value} 
+            className="filter-section-list-item filter-menu__category-item"
+            onClick={() => toggle(value)}
+            style={{ fontWeight: selected.includes(value) ? 600 : 400 }}
+          >
+            <span className="item-text">{value}</span>
+            <span className="category-count">{count}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -120,8 +144,10 @@ function BrandFilter({
   const debouncedSearch = useDebounce(search, 300);
 
   const filteredOptions = useMemo(() => {
-    if (!debouncedSearch) return options;
-    return options.filter((o) =>
+    // Chỉ lấy các brand có trong MAIN_BRANDS, sau đó lọc tiếp bằng thanh search
+    const baseBrands = options.filter(o => MAIN_BRANDS.includes(o.value));
+    if (!debouncedSearch) return baseBrands;
+    return baseBrands.filter((o) =>
       o.value.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
   }, [options, debouncedSearch]);
@@ -136,24 +162,34 @@ function BrandFilter({
   return (
     <div className="filter-menu__section">
       <h4>Brands</h4>
-      <input
-        type="text"
-        placeholder="Search for brands..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="filter-menu__search-input"
-      />
-      {filteredOptions.map(({ value, count }) => (
-        <label key={value} className="filter-menu__checkbox-row">
-          <input
-            type="checkbox"
-            checked={selected.includes(value)}
-            onChange={() => toggle(value)}
-          />
-          <span>{value}</span>
-          <span className="filter-menu__count">{count}</span>
-        </label>
-      ))}
+      <div className="filter-menu__search-wrapper">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="text"
+          placeholder="Search for brands..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="filter-menu__search-input"
+        />
+      </div>
+      <div className="filter-menu__section-content">
+        {filteredOptions.map(({ value, count }) => (
+          <label key={value} className="filter-section-list-item filter-menu__checkbox-row">
+            <input
+              type="checkbox"
+              hidden
+              checked={selected.includes(value)}
+              onChange={() => toggle(value)}
+            />
+            <span className="custom-checkbox"></span>
+            <span className="item-text" style={{ fontWeight: selected.includes(value) ? 600 : 400 }}>{value}</span>
+            <span className="category-count">{count}</span>
+          </label>
+        ))}
+      </div>
     </div>
   );
 }
@@ -173,7 +209,6 @@ function PriceFilter({
   currentMax: number;
   onChange: (min: number, max: number) => void;
 }) {
-  // State nội bộ để kéo mượt, chỉ bắn ra ngoài (gọi API) khi thả tay (onMouseUp/onChange cuối)
   const [localMin, setLocalMin] = useState(currentMin);
   const [localMax, setLocalMax] = useState(currentMax);
 
@@ -183,8 +218,8 @@ function PriceFilter({
     <div className="filter-menu__section">
       <h4>Price</h4>
       <div className="filter-menu__price-labels">
-        <span>${localMin}</span>
-        <span>${localMax}</span>
+        <span><span style={{color: '#f5a623', marginRight: '2px'}}>$</span>{localMin}</span>
+        <span><span style={{color: '#f5a623', marginRight: '2px'}}>$</span>{localMax}</span>
       </div>
       <div className="filter-menu__slider-wrapper">
         <input
@@ -225,7 +260,6 @@ function RatingFilter({
   selected?: number;
   onChange: (rating: number | undefined) => void;
 }) {
-  // Sort giảm dần theo sao (4 -> 1), giống ảnh 4
   const sorted = [...options].sort(
     (a, b) => Number(b.value) - Number(a.value)
   );
@@ -233,27 +267,31 @@ function RatingFilter({
   return (
     <div className="filter-menu__section">
       <h4>Ratings</h4>
-      {sorted.map(({ value, count }) => {
-        const stars = Number(value);
-        const isActive = selected === stars;
-        return (
-          <button
-            key={value}
-            className={`filter-menu__rating-row ${isActive ? 'active' : ''}`}
-            onClick={() => onChange(isActive ? undefined : stars)}
-          >
-            {Array.from({ length: 5 }).map((_, i) => (
-              <span
-                key={i}
-                className={i < stars ? 'star star--filled' : 'star'}
-              >
-                ★
-              </span>
-            ))}
-            <span className="filter-menu__count">{count}</span>
-          </button>
-        );
-      })}
+      <div className="filter-menu__section-content">
+        {sorted.map(({ value, count }) => {
+          const stars = Number(value);
+          const isActive = selected === stars;
+          return (
+            <button
+              key={value}
+              className={`filter-menu__rating-row ${isActive ? 'active' : ''}`}
+              onClick={() => onChange(isActive ? undefined : stars)}
+            >
+              <div style={{ display: 'flex', gap: '4px' }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span
+                    key={i}
+                    className={i < stars ? 'star star--filled' : 'star'}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <span className="category-count">{count}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -22,4 +22,5 @@ export interface ProductQueryParams {
   freeShipping?: boolean;
   q?: string;            // full-text search (thanh search "Product, brand, color...")
   sortBy?: 'featured' | 'price_asc' | 'price_desc' | 'rating_desc';
+  sort?: string;
 }
