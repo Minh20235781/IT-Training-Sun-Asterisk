@@ -229,11 +229,15 @@ input {
 
 .filter-menu__section {
   padding: 32px 0;
+  /* Remove top border here; use adjacent selector below to add separators between sections only */
+  border-top: none;
+}
+
+.filter-menu__section + .filter-menu__section {
   border-top: 1px solid #e5e7eb;
 }
 
 .filter-menu__section:first-of-type {
-  border-top: none !important;
   padding-top: 0 !important;
 }
 
@@ -468,36 +472,15 @@ input {
   /* border moved to parent to render a single continuous line */
 }
 
-/* Two separated dividers: left and right, matching the sample layout */
-.home-page__body::before,
+/* Single continuous divider spanning both columns */
 .home-page__body::after {
   content: '';
   position: absolute;
-  height: 1px;
+  left: 0;
+  right: 0;
   top: 96px; /* padding-top (48px) + header height (48px) */
+  height: 1px;
   background-color: #e5e7eb;
-  pointer-events: none;
-}
-
-/* left divider: from container left padding to center gap */
-.home-page__body::before {
-  left: 24px; /* matches container horizontal padding */
-  right: calc(50% + 24px); /* stop before center + inner padding */
-}
-
-/* right divider: from center gap to container right padding */
-.home-page__body::after {
-  left: calc(50% + 24px);
-  right: 24px;
-}
-
-/* On small screens (single column) show a single full-width divider */
-@media (max-width: 900px) {
-  .home-page__body::before,
-  .home-page__body::after {
-    left: 24px;
-    right: 24px;
-  }
 }
 
 .product-toolbar__select {
