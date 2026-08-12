@@ -107,7 +107,7 @@ export default function Home() {
           {loading && <p>Đang tải...</p>}
           {error && <p className="error">{error}</p>}
 
-          {!loading && products.length === 0 && (
+          {!loading && !error && products.length === 0 && (
             <p className="empty-state">Không tìm thấy sản phẩm phù hợp.</p>
           )}
 
