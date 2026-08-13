@@ -4,7 +4,7 @@ import { API_BASE_URL } from '@/utils/constants';
 export const axiosClient = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 10000,
+  timeout: 60000,
 });
 
 // KHÔNG dùng interceptor unwrap data ở đây nữa,
