@@ -78,7 +78,15 @@ export function useProducts(initialParams: ProductQueryParams = {}) {
   }, [fetchProducts]);
 
   const updateParams = useCallback((patch: Partial<ProductQueryParams>) => {
-    setParams((prev) => ({ ...prev, ...patch, page: 1 })); // reset page khi filter đổi
+    setParams((prev) => {
+      const newParams = { ...prev, ...patch, page: 1 };
+      
+      if (JSON.stringify(prev) === JSON.stringify(newParams)) {
+        return prev;
+      }
+      
+      return newParams;
+    });
   }, []);
 
   const clearFilters = useCallback(() => {

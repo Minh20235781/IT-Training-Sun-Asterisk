@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { SearchBar } from '@/components/common/SearchBar';
 import { FilterMenu } from '@/components/product/FilterMenu';
 import { ProductCard } from '@/components/product/ProductCard';
@@ -10,6 +10,8 @@ import { SEARCH_DEBOUNCE_MS, DEFAULT_PAGE_SIZE } from '@/utils/constants';
 export default function Home() {
   const [searchInput, setSearchInput] = useState('');
   const debouncedSearch = useDebounce(searchInput, SEARCH_DEBOUNCE_MS);
+
+  const isFirstRender = useRef(true);
 
   const {
     products,
@@ -24,6 +26,10 @@ export default function Home() {
   } = useProducts({ page: 1, limit: DEFAULT_PAGE_SIZE });
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     updateParams({ q: debouncedSearch || undefined });
   }, [debouncedSearch]); // eslint-disable-line react-hooks/exhaustive-deps
 
