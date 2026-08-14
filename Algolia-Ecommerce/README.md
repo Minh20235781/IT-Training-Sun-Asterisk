@@ -1,98 +1,146 @@
-# Algolia E-commerce (Mẫu)
+# Algolia E-commerce Demo
 
-Đây là repository demo một ứng dụng e-commerce front-end sử dụng dữ liệu mẫu được lấy/chuyển đổi từ Algolia. Mục tiêu: minh hoạ tìm kiếm/lọc/phan trang sản phẩm, kèm frontend React + một JSON API nhẹ để phát triển.
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![JSON Server](https://img.shields.io/badge/JSON_Server-333333?style=for-the-badge&logo=json&logoColor=white)](https://github.com/typicode/json-server)
 
-## Tổng quan
+Đây là repository demo một ứng dụng E-commerce Frontend sử dụng dữ liệu mẫu được lấy và chuẩn hóa từ Algolia. Dự án minh hoạ các tính năng cốt lõi của một trang thương mại điện tử như: tìm kiếm, bộ lọc động (facets), phân trang, và tích hợp API.
 
-- Frontend: SPA React (Vite + TypeScript). Thư mục: [frontend](frontend)
-- Dữ liệu phát triển: JSON server (db.json) được tạo từ file Algolia raw trong [data](data)
+## Live Demo
 
-Ứng dụng minh họa các tính năng cơ bản: danh sách sản phẩm, bộ lọc theo category/brand, tìm kiếm, phân trang, và ví dụ tích hợp API.
+Dự án đã được deploy và chạy thực tế tại:
+**[Trải nghiệm Live Demo](https://algolia-ecommerce-final.vercel.app/)**
 
-## Cấu trúc chính
+---
 
-- [frontend](frontend): mã nguồn React, cấu hình Vite, TypeScript, scripts `dev`, `build`, `preview`.
-- [data](data): dữ liệu mẫu, script chuyển đổi `transform.js`, `db.json` đầu ra, và `package.json` chạy `json-server`.
+## Công nghệ sử dụng
 
-Tham khảo các file config:
+* **Frontend:** React (SPA), Vite, TypeScript.
+* **Backend (Mock API):** JSON Server.
+* **Styling:** CSS thuần (BEM methodology) / SCSS (tùy chỉnh).
+* **Data Fetching:** Axios.
+* **Deployment:** Vercel (Frontend) & Render/Glitch (Backend).
 
-- Frontend config: [frontend/tsconfig.json](frontend/tsconfig.json)
-- Vite config: [frontend/vite.config.ts](frontend/vite.config.ts)
-- Data scripts: [data/transform.js](data/transform.js)
+---
 
-## Yêu cầu cài đặt
+## Cấu trúc thư mục
 
-- Node.js (LTS) và npm (hoặc yarn/pnpm).
+Dự án được thiết kế theo dạng Monorepo đơn giản với 2 thư mục chính độc lập:
 
-## Khởi động nhanh (local development)
+```text
+IT-Training-Sun-Asterisk/
+│
+├── data/                  # Backend (Mock API)
+│   ├── algolia-raw.json   # Dữ liệu gốc xuất ra từ Algolia
+│   ├── db.json            # Database chính sau khi đã được transform
+│   ├── transform.js       # Script chuẩn hóa dữ liệu gốc sang db.json
+│   ├── server.js          # File khởi chạy JSON Server (cho môi trường deploy)
+│   └── package.json       # Chứa scripts chạy backend
+│
+└── frontend/              # Frontend (React + Vite)
+    ├── src/
+    │   ├── api/           # Cấu hình Axios và các hàm gọi API
+    │   ├── components/    # Reusable UI components (ProductCard, FilterMenu,...)
+    │   ├── hooks/         # Custom hooks (useProducts, useDebounce,...)
+    │   ├── pages/         # Các trang chính (Home,...)
+    │   ├── types/         # TypeScript interfaces/types
+    │   ├── utils/         # Constants, helpers,...
+    │   └── vite-env.d.ts  # Khai báo môi trường cho Vite
+    ├── index.html         # Entry point HTML
+    ├── vite.config.ts     # Cấu hình Vite (bao gồm proxy config)
+    ├── tsconfig.json      # Cấu hình TypeScript
+    └── package.json       # Chứa dependencies và scripts chạy frontend
+```
 
-1. Cài dependencies cho `data` (chạy một lần nếu cần) và tạo `db.json`:
+## Hướng dẫn cài đặt & Khởi chạy (Local Development)
+
+Yêu cầu môi trường: Cài đặt sẵn **Node.js (LTS)** và **npm** (hoặc yarn/pnpm).
+
+### Bước 1: Clone dự án
+
+```bash
+git clone https://github.com/TEN_USER/IT-Training-Sun-Asterisk.git
+cd IT-Training-Sun-Asterisk
+```
+
+### Bước 2: Thiết lập & Khởi chạy Backend (`data`)
+
+Mở terminal thứ nhất và chạy các lệnh sau:
 
 ```bash
 cd data
 npm install
-node transform.js    # chuyển đổi algolia-raw.json -> db.json
-npm run start        # chạy json-server trên cổng 3001
+
+# (Tùy chọn) Chạy lệnh này nếu bạn muốn tạo lại file db.json từ dữ liệu thô
+node transform.js
+
+# Khởi chạy JSON Server trên http://localhost:3001
+npm start
 ```
 
-2. Cài dependencies và chạy frontend:
+*Lưu ý: API sẽ lắng nghe tại `http://localhost:3001/products`.*
+
+### Bước 3: Thiết lập & Khởi chạy Frontend (`frontend`)
+
+Mở terminal thứ hai và chạy các lệnh sau:
 
 ```bash
 cd frontend
 npm install
+
+# Khởi chạy Vite Dev Server
 npm run dev
 ```
 
-Frontend mặc định dùng Vite (port 5173). Nếu port bận, Vite sẽ đề xuất cổng khác.
+Vite sẽ khởi chạy dự án tại `http://localhost:5173`.
+*(Lưu ý: Vite đã được cấu hình proxy tự động chuyển tiếp các request từ `/api` sang `http://localhost:3001` để tránh lỗi CORS khi dev).* 
 
-API backend (json-server) mặc định lắng nghe trên `http://localhost:3001` và cung cấp endpoint
-`/products` (từ `data/db.json`). Vite cấu hình proxy `/api` → `http://localhost:3001` để tránh CORS khi dev.
+## Các Script hữu ích
 
-**Demo (Live)**
+### Thư mục `frontend/`
 
-- Live demo được deploy trên Vercel: [https://algolia-ecommerce-final.vercel.app/](https://algolia-ecommerce-final.vercel.app/)
+- `npm run dev`: Khởi chạy Vite dev server.
+- `npm run build`: Kiểm tra lỗi TypeScript (`tsc -b`) và đóng gói dự án vào thư mục `dist`.
+- `npm run preview`: Xem trước bản build trên local.
 
-## Scripts hữu ích
+### Thư mục `data/`
 
-- Root: không có script root đặc biệt; làm việc trong từng package `frontend` hoặc `data`.
-- [frontend/package.json](frontend/package.json):
-  - `dev`: chạy vite dev server
-  - `build`: chạy `tsc -b` rồi `vite build`
-  - `preview`: preview build
+- `npm start`: Khởi chạy JSON server kết nối với `db.json`.
 
-- [data/package.json](data/package.json):
-  - `start`: khởi chạy `json-server --watch db.json --port 3001`
+## Dữ liệu Algolia & Quá trình chuyển đổi (Transformation)
 
-## Environment & TypeScript notes
+Để mô phỏng môi trường thực tế, dữ liệu được export từ file `algolia-raw.json`. Script `transform.js` đóng vai trò quan trọng trong việc chuẩn hóa dữ liệu này để Frontend dễ dàng tiêu thụ:
 
-- Đã thêm `src/vite-env.d.ts` trong frontend để TypeScript nhận diện `import.meta.env` và định nghĩa Vite types.
-- `tsconfig.node.json` đã include `types: ["node"]` để Vite/Node type hoạt động tốt khi dùng ESM trong `vite.config.ts`.
+- Đổi `objectID` thành `id`.
+- Trích xuất và làm phẳng các trường dữ liệu như `category`, `brand`, `price`, `image`, `description`.
+- Tính toán lại các cấu trúc lồng nhau phức tạp của Algolia thành dạng mảng JSON đơn giản.
 
-## Dữ liệu Algolia và chuyển đổi
+## Lưu ý khi phát triển (Troubleshooting)
 
-- Nếu bạn có một export từ Algolia (file `algolia-raw.json` trong `data`), chạy `node transform.js` để tạo `db.json` phù hợp với frontend.
-- `transform.js` thực hiện các bước chuẩn hoá: lấy `objectID` làm `id`, trích `category`, `brand`, `price`, `image`, `description`, v.v.
+1. **Lỗi trang trắng:** Luôn mở DevTools (F12) -> Tab **Console** để kiểm tra lỗi Runtime. Điều này quan trọng hơn các lỗi cảnh báo đỏ của TypeScript trong VS Code.
+2. **Lỗi TypeScript với biến môi trường:** Nếu gặp lỗi liên quan đến `import.meta.env`, hãy kiểm tra file `src/vite-env.d.ts` xem đã khai báo đủ type cho Vite chưa và đảm bảo `@types/node` đã được cài đặt.
+3. **Lỗi Import Paths:** Dự án sử dụng alias `@/` trỏ vào thư mục `src`. Nếu IDE báo lỗi không tìm thấy file, hãy kiểm tra lại mục `paths` trong `tsconfig.json`.
 
-## Lưu ý khi phát triển
+## Định hướng cải tiến (Roadmap)
 
-- Nếu trang trắng trên trình duyệt: mở DevTools → Console để xem lỗi runtime (điều này quan trọng hơn các lỗi type-check trong VS Code).
-- Nếu gặp lỗi TypeScript liên quan tới CSS imports hoặc `import.meta.env`, đảm bảo file `src/vite-env.d.ts` tồn tại và `@types/node` được cài trong `frontend`.
-- Nếu thay đổi cấu trúc path trong `tsconfig.json`, hãy dùng `"./src/*"` cho `paths` hoặc thiết lập `baseUrl` hợp lệ.
+- [ ] Tích hợp **React Testing Library** và Jest/Vitest để viết Unit Test cho các Components.
+- [ ] Sử dụng **React Query** (TanStack Query) hoặc **SWR** để tối ưu hóa quá trình caching, background refetch và quản lý loading state gọn gàng hơn.
+- [ ] Chuyển đổi (Migration) sang **Next.js** nếu dự án có yêu cầu cao về SEO (SSR/SSG).
+- [ ] Cấu hình CI/CD tự động bằng GitHub Actions (tự động chạy linter, tester trước khi merge).
 
-## Gợi ý cải tiến
+## Đóng góp (Contributing)
 
-- Thêm test cho components với React Testing Library.
-- Dùng React Query hoặc SWR để tối ưu caching + background refetch cho API.
-- Thử Next.js nếu cần SSR/SSG cho SEO.
+Dự án tuân theo mô hình đóng góp cơ bản:
 
-## Contributing
+1. **Fork** repository.
+2. Tạo **Branch** mới cho tính năng hoặc bản vá lỗi (`git checkout -b feature/AmazingFeature`).
+3. **Commit** thay đổi (`git commit -m 'Add some AmazingFeature'`).
+4. **Push** lên branch (`git push origin feature/AmazingFeature`).
+5. Tạo **Pull Request (PR)**.
 
-- Mô hình đơn giản: fork → branch → PR. Giữ thay đổi nhỏ, kèm mô tả rõ ràng.
+Vui lòng giữ các thay đổi nhỏ gọn và kèm theo mô tả rõ ràng.
 
-## License
+## Giấy phép (License)
 
-- Mã nguồn demo — tuỳ bạn thêm license phù hợp (MIT, Apache-2.0,...).
-
----
-
-Nếu bạn muốn, tôi có thể thêm hướng dẫn thiết lập Algolia (indexing), hoặc hướng dẫn chi tiết về cách tích hợp tìm kiếm thực tế (autocomplete, faceting), hoặc thêm badge/CI config.
+Dự án này được phân phối dưới giấy phép **MIT License**. Xem chi tiết tại file `LICENSE`.
