@@ -16,7 +16,6 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
-      {/* KHÓA CỨNG CHIỀU CAO Ở ĐÂY (height: 200px) để các ảnh luôn bằng nhau */}
       <div 
         className="product-card__image-wrapper"
         style={{ 
@@ -47,7 +46,6 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
 
       <div className="product-price-row">
         <span className="product-price">
-          {/* Tách ký hiệu $ ra để nhận CSS màu vàng */}
           <span className="product-price-symbol">$</span>
           {formatCurrency(price)}
         </span>

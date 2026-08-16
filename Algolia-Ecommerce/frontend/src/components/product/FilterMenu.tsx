@@ -3,7 +3,6 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { ProductQueryParams } from '@/types/product';
 import { ProductFacets } from '@/types/common';
 
-// Danh sách cố định theo ảnh mẫu
 const MAIN_CATEGORIES = [
   'Appliances', 'Audio', 'Cameras & Camcorders', 'Car Electronics & GPS',
   'Cell Phones', 'Computers & Tablets', 'Health, Fitness & Beauty',
@@ -88,8 +87,6 @@ export function FilterMenu({
   );
 }
 
-/* ---------- Category ---------- */
-
 function CategoryFilter({
   options,
   selected,
@@ -106,7 +103,6 @@ function CategoryFilter({
     onChange(next);
   };
 
-  // Chỉ lấy các category có trong MAIN_CATEGORIES
   const filteredCategories = options.filter(o => MAIN_CATEGORIES.includes(o.value));
 
   return (
@@ -129,8 +125,6 @@ function CategoryFilter({
   );
 }
 
-/* ---------- Brand (có search) ---------- */
-
 function BrandFilter({
   options,
   selected,
@@ -144,7 +138,6 @@ function BrandFilter({
   const debouncedSearch = useDebounce(search, 300);
 
   const filteredOptions = useMemo(() => {
-    // Chỉ lấy các brand có trong MAIN_BRANDS, sau đó lọc tiếp bằng thanh search
     const baseBrands = options.filter(o => MAIN_BRANDS.includes(o.value));
     if (!debouncedSearch) return baseBrands;
     return baseBrands.filter((o) =>
@@ -193,8 +186,6 @@ function BrandFilter({
     </div>
   );
 }
-
-/* ---------- Price range slider ---------- */
 
 function PriceFilter({
   min,
@@ -248,8 +239,6 @@ function PriceFilter({
     </div>
   );
 }
-
-/* ---------- Rating stars ---------- */
 
 function RatingFilter({
   options,

@@ -10,7 +10,6 @@ export interface Product {
   freeShipping: boolean;
 }
 
-// Params gửi lên API — khớp với các filter UI
 export interface ProductQueryParams {
   page?: number;
   limit?: number;

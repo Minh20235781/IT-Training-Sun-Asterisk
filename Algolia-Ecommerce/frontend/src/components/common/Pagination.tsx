@@ -2,7 +2,7 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  siblingCount?: number; // số trang hiện xung quanh trang hiện tại
+  siblingCount?: number; 
 }
 
 export function Pagination({
@@ -61,16 +61,12 @@ export function Pagination({
   );
 }
 
-/**
- * Tính danh sách trang hiển thị, chèn "ellipsis" khi có khoảng trống.
- * Ví dụ: currentPage=1, totalPages=8 -> [1,2,3,'ellipsis',8]
- */
 function getPageRange(
   current: number,
   total: number,
   siblingCount: number
 ): (number | 'ellipsis')[] {
-  const totalVisible = siblingCount * 2 + 5; // first + last + current + 2 ellipsis + siblings
+  const totalVisible = siblingCount * 2 + 5;
 
   if (total <= totalVisible) {
     return Array.from({ length: total }, (_, i) => i + 1);

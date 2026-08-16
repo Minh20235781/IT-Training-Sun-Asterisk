@@ -11,7 +11,6 @@ export default defineConfig({
     server: {
         port: 5173,
         proxy: {
-            // Proxy các request /api tới json-server, tránh lỗi CORS khi dev
             '/api': {
                 target: 'http://localhost:3001',
                 changeOrigin: true,

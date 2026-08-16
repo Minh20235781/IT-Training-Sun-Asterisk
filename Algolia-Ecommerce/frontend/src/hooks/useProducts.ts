@@ -66,7 +66,6 @@ export function useProducts(initialParams: ProductQueryParams = {}) {
     }
   }, [params]);
 
-  // Facets chỉ cần load 1 lần lúc mount (không phụ thuộc params)
   useEffect(() => {
     withRetry(() => productApi.getFacets())
       .then(setFacets)

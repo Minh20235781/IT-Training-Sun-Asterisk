@@ -1,15 +1,10 @@
-// data/transform.js
 const fs = require('fs');
 
 const hits = JSON.parse(fs.readFileSync('./algolia-raw.json', 'utf-8'));
 
-/**
- * Chuẩn hoá category: nếu là array (kể cả lồng nhau), lấy phần tử string đầu tiên.
- */
 function extractCategory(hit) {
   let raw = hit.hierarchicalCategories?.lvl0 ?? hit.categories ?? hit.category ?? 'Uncategorized';
 
-  // Nếu là array (hoặc array lồng array), đệ quy lấy phần tử đầu tiên cho tới khi ra string
   while (Array.isArray(raw)) {
     raw = raw[0];
   }
@@ -17,10 +12,6 @@ function extractCategory(hit) {
   return raw || 'Uncategorized';
 }
 
-/**
- * Chuẩn hoá brand: nếu thiếu field brand, thử suy ra từ tên sản phẩm
- * (dataset gốc thường đặt tên dạng "Brand - Product name...")
- */
 function extractBrand(hit) {
   if (hit.brand) return hit.brand;
 

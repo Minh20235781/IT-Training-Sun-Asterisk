@@ -7,8 +7,6 @@ export const axiosClient = axios.create({
   timeout: 60000,
 });
 
-// KHÔNG dùng interceptor unwrap data ở đây nữa,
-// để mỗi API tự quyết định lấy .data hay full response (cần header)
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject(error)

@@ -31,7 +31,7 @@ export default function Home() {
       return;
     }
     updateParams({ q: debouncedSearch || undefined });
-  }, [debouncedSearch]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [debouncedSearch]);
 
   const handlePageChange = (page: number) => {
     setParams((prev) => ({ ...prev, page }));
@@ -41,7 +41,6 @@ export default function Home() {
   return (
     <div className="home-page">
       <div className="hero-banner">
-        {/* Phần Logo */}
         <div className="hero-banner__logo"> 
           <a 
           href="https://www.algolia.com/" 
@@ -85,8 +84,6 @@ export default function Home() {
         )}
 
         <main className="product-section">
-          
-          {/* THÊM THANH TOOLBAR VÀO ĐÂY */}
           <div className="product-toolbar">
             <select
               className="product-toolbar__select"
@@ -108,7 +105,6 @@ export default function Home() {
               <option value={64}>64 hits per page</option>
             </select>
           </div>
-          {/* KẾT THÚC THANH TOOLBAR */}
 
           {loading && <p>Đang tải...</p>}
           {error && <p className="error">{error}</p>}
