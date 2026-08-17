@@ -1,4 +1,4 @@
-# Tổng hợp NextJS Toàn Tập
+# Tổng hợp kiến thức NextJS 
 
 ## I. Nextjs Fundamentals
 
